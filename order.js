@@ -24,6 +24,7 @@
     //if false, then it will execute in order. Favor that test first for forward
     //compatibility.
     ohImBadVar3 = 'fuuuu';
+    ohImBadVar4 = 'fuuuu';
     var testScript = typeof document !== "undefined" &&
                  typeof window !== "undefined" &&
                  document.createElement("script"),
