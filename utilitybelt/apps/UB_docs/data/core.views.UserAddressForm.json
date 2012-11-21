@@ -1,0 +1,80 @@
+[
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "user_id",
+        "description": "User ID\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "id",
+        "description": "Address ID"
+      }
+    ],
+    "description": {
+      "full": "<p>Form for editing User Address</p>\n\n<h2>Example</h2>\n\n<pre><code>var form = new core.views.UserAddressForm({ id: 'a2', user_id: 'a1' });\nform.renderTo($('my_container'));\n</code></pre>",
+      "summary": "<p>Form for editing User Address</p>\n\n<h2>Example</h2>\n\n<pre><code>var form = new core.views.UserAddressForm({ id: 'a2', user_id: 'a1' });\nform.renderTo($('my_container'));\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.UserAddressForm', {\r\n    extend: 'core.views.Form',\r\n    className: 'UserAddressForm',\r\n    template: '',\r\n    user_id: null,\r\n    model: null,\r\n       \r\n    events: {\r\n      \"submit form\": \"formValidate\",\r\n      \"click .submit\": \"formValidate\",\r\n      \"click a.back\": \"onBackLinkClick\"\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Constructor</p>",
+      "summary": "<p>Constructor</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "initialize: function(){\r\n\r\n        var me = this;\r\n        this.user_id = this.options.user_id;\r\n        this.id = this.options.id;\r\n\r\n        this.record = this.options.record;\r\n\r\n        this.model = new core.models.Address({ user_id: this.user_id, id: this.id });\r\n\r\n        core.utils.getTemplate('UserAddress/UserAddressForm.html', function(tpl) {\r\n            me.render(tpl);\r\n        });\r\n        \r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Render the widget using the template</p>",
+      "summary": "<p>Render the widget using the template</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "render: function(tpl){\r\n        var me = this;\r\n        me.template = _.template(tpl);\r\n        me.$el.append(me.template);\r\n        me.form = me.$el.find('form');\r\n        me.clearInvalidSimple();\r\n        me.loadAddressData();\r\n        core.views.UserAddressForm.__super__.render.call(this);\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Populate with the address data</p>",
+      "summary": "<p>Populate with the address data</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "loadAddressData: function(){\r\n        var me = this;\r\n        if (this.record) {\r\n            me.model = this.record;\r\n            me.setValues(this.record);\r\n        }\r\n        else if (this.options.id) {\r\n            this.model.fetch({ success: function(mdl) {\r\n                me.setValues(mdl)\r\n            } });\r\n        }\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Runs when user clicks on a \"Back\" link</p>",
+      "summary": "<p>Runs when user clicks on a \"Back\" link</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "onBackLinkClick: function() {\r\n        if (this.options && this.options.onBackLinkClick)\r\n            this.options.onBackLinkClick();\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Demo code</p>",
+      "summary": "<p>Demo code</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "demo: function() {\r\n        var form = new core.views.UserAddressForm({ id: 1 });\r\n        return form;\r\n    }\r\n\r\n});"
+  }
+]

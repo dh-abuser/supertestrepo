@@ -1,0 +1,201 @@
+[
+  {
+    "tags": [
+      {
+        "type": "extends",
+        "string": "core.views.Lightbox"
+      }
+    ],
+    "description": {
+      "full": "<p>Lightbox which displays a list of flavors for a menu item</p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.FlavorsLightbox();\nlb.show(item);\n</code></pre>",
+      "summary": "<p>Lightbox which displays a list of flavors for a menu item</p>",
+      "body": "<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.FlavorsLightbox();\nlb.show(item);\n</code></pre>"
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.FlavorsLightbox', {\n\n    extend: 'core.views.Lightbox',\n\n    templateFlavor: \"Flavors/flavors.html\",\n\n    events: {\n        \"click .top-box .close-icon\": \"hide\",\n        \"click .button\": \"chooseFlavors\",\n        \"click input[data-flavor-id]\": 'recalculatePrice'\n    },\n\n    className: 'FlavorsLightbox',\n\n    plugins: {\n        'section': 'jqTransform'\n    },\n\n    validate: function() {\n        //TODO check first of all the Model Validation and also the data validation inside the model ???\n        //and display the error on the DOM\n        var forms = this.$el.find(\"form\");\n        for(var i = 0, len = forms.length; i < len; i++) {\n            console.log(forms[i]);\n        }\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "constructor",
+        "string": ""
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Options"
+      }
+    ],
+    "description": {
+      "full": "<p>Constructor</p>",
+      "summary": "<p>Constructor</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options) {\n        var me = this;\n        core.utils.getTemplate(me.templateFlavor, function(tpl) {\n            me.templateFlavor = tpl;\n        });\n        core.views.FlavorsLightbox.__super__.initialize.call(this, options);\n    },\n    addItem: function(type, config, place) {\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "item",
+        "description": "The data structure (with flavors information) for the menu item"
+      }
+    ],
+    "description": {
+      "full": "<p>Display the flavors lightbox for a menu item</p>",
+      "summary": "<p>Display the flavors lightbox for a menu item</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "show: function(item) {\n        this.item = item;\n        //TODO: has to be fixed when using backbone again\n        //this.basePrice = this.item.get('sizes').at(0).get('price');\n        this.basePrice = item.sizes[0].price;\n\n        //add all flavors to a view-wide colleciton so they can easily be retrieved by ID\n        this.flvUtils = new core.utils.flavorUtils(item);\n        this.allFlavors = this.flvUtils.getFlavorsForItem(item.id);\n\n        this.itemJSON = item;\n        this.title = this.itemJSON.name;\n        this.options.content = _.template(this.templateFlavor)(this.itemJSON);\n        core.views.FlavorsLightbox.__super__.show.call(this);\n\n        this.setDisplayedPrice(core.utils.formatPrice(this.basePrice));\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Validates the flavors chosen for the item. If the validation is successful, the item is added to the cart.<br />Otherwise, the invalid sections are highlighted.</p>",
+      "summary": "<p>Validates the flavors chosen for the item. If the validation is successful, the item is added to the cart.<br />Otherwise, the invalid sections are highlighted.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "chooseFlavors: function() {\n        var clonedItem = {};\n        jQuery.extend(true, clonedItem, this.itemJSON);\n        var itemModel = this.createCartItem(this.getSelectedFlavors(), clonedItem);\n\n        //VALIDATION\n        var error = itemModel.validate();\n\n        this.trigger(\"flavorsChosen\", {\n            selectedItemModel: itemModel\n        });\n        this.hide();\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Array"
+        ],
+        "name": "flavorsArray",
+        "description": "An array of ID strings of flavors to be included in the returned Item model"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "selectedItem",
+        "description": "The object data structure for the menu item"
+      }
+    ],
+    "description": {
+      "full": "<p>Creates a core.models.Item model for an item object. The resulting model contains only the flavors specified in flavorsArray.</p>",
+      "summary": "<p>Creates a core.models.Item model for an item object. The resulting model contains only the flavors specified in flavorsArray.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "createCartItem: function(flavorsArray, selectedItem) {\n        //TODO support arbitrary depth flavor nesting !!\n        for(var i = 0, subItems = selectedItem.flavors.items; i < subItems.length; i++) {\n            var subItem = subItems[i];\n            for(var j = 0, subSubItems = subItem.flavors.items; j < subSubItems.length; j++) {\n                var subSubItem = subSubItems[j];\n                var subSubId = subSubItem.id;\n                if(!_.include(flavorsArray, subSubId)) {\n                    subItem.flavors.items = _.difference(subItem.flavors.items, [subSubItem])\n                }\n            }\n        }\n        //all unselected flavors have been removed from the selectedItem.\n        var selectedItemModel = new core.models.Item(selectedItem);\n        return selectedItemModel;\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "evt",
+        "description": "The event object"
+      }
+    ],
+    "description": {
+      "full": "<p>Schedule this.calculateTotalPrice() for asynchronous execution, allowing the UI to update state</p>",
+      "summary": "<p>Schedule this.calculateTotalPrice() for asynchronous execution, allowing the UI to update state</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "recalculatePrice: function(evt) {\n        var me = this;\n        setTimeout(function() {\n            me.calculateTotalPrice();\n        }, 1);\n\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "return",
+        "types": [
+          "Array"
+        ],
+        "description": "An array of stirng, one for each ID"
+      }
+    ],
+    "description": {
+      "full": "<p>Returns the ID's of flavors that have been selected</p>",
+      "summary": "<p>Returns the ID's of flavors that have been selected</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "getSelectedFlavors: function() {\n        var checkedInputs = this.$el.find(\"form input:checked\");\n        var flavorIds = _.map(checkedInputs, function(input) {\n            return $(input).data('flavor-id') + '';\n        });\n        return flavorIds;\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Updates the total price displayed in the view.</p>",
+      "summary": "<p>Updates the total price displayed in the view.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "calculateTotalPrice: function() {\n        var selectedFlavors = this.$el.find(\"form input:checked\");\n        var me = this;\n        var newPrice = this.basePrice;\n\n        var flvUtils = new core.utils.flavorUtils();\n\n        _.each(selectedFlavors, function(elem) {\n            var id = $(elem).data('flavor-id') + '';\n            var selectedFlavor = this.flvUtils.getItem(id);\n            if(selectedFlavor != null && selectedFlavor.sizes != null && selectedFlavor.sizes.length != null && selectedFlavor.sizes.length > 0) {\n                var flavorPrice = selectedFlavor.sizes[0].price;\n                newPrice += flavorPrice;\n            }\n        }, me);\n        this.setDisplayedPrice(core.utils.formatPrice(newPrice));\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "price",
+        "description": "The price to be set"
+      }
+    ],
+    "description": {
+      "full": "<p>Sets the displayed price to a specific value</p>",
+      "summary": "<p>Sets the displayed price to a specific value</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setDisplayedPrice: function(price) {\n        this.$el.find(\".total_price h3.right\").text(price);\n    },\n\n    demo: function() {\n        var demoItem = {\n                \"flavors\": {\n                    \"items\": [{\n                        \"flavors\": {\n                            \"items\": [{\n                                \"description\": \"\",\n                                \"sizes\": [{\n                                    \"price\": 0.60,\n                                    \"name\": \"normal\"\n                                }],\n                                \"pic\": \"\",\n                                \"main_item\": false,\n                                \"sub_item\": true,\n                                \"id\": \"1131061\",\n                                \"name\": \"Balsamico\"\n                            }, {\n                                \"description\": \"\",\n                                \"sizes\": [{\n                                    \"price\": 0.60,\n                                    \"name\": \"normal\"\n                                }],\n                                \"pic\": \"\",\n                                \"main_item\": false,\n                                \"sub_item\": true,\n                                \"id\": \"1131062\",\n                                \"name\": \"Caesar*1\"\n                            }],\n                            \"id\": \"76666\",\n                            \"structure\": \"0\"\n                        },\n                        \"description\": \"\",\n                        \"sizes\": [],\n                        \"pic\": \"\",\n                        \"main_item\": false,\n                        \"sub_item\": false,\n                        \"id\": \"76666\",\n                        \"name\": \"Extra Dressing\"\n                    }, {\n                        \"flavors\": {\n                            \"items\": [{\n                                \"description\": \"\",\n                                \"sizes\": [{\n                                    \"price\": 0.00,\n                                    \"name\": \"normal\"\n                                }],\n                                \"pic\": \"\",\n                                \"main_item\": false,\n                                \"sub_item\": true,\n                                \"id\": \"1131059\",\n                                \"name\": \"Balsamico\"\n                            }, {\n                                \"description\": \"\",\n                                \"sizes\": [{\n                                    \"price\": 0.00,\n                                    \"name\": \"normal\"\n                                }],\n                                \"pic\": \"\",\n                                \"main_item\": false,\n                                \"sub_item\": true,\n                                \"id\": \"1131060\",\n                                \"name\": \"Caesar*1 \"\n                            }, {\n                                \"description\": \"\",\n                                \"sizes\": [{\n                                    \"price\": 0.00,\n                                    \"name\": \"normal\"\n                                }],\n                                \"pic\": \"\",\n                                \"main_item\": false,\n                                \"sub_item\": true,\n                                \"id\": \"1131057\",\n                                \"name\": \"ohne Dressing\"\n                            }],\n                            \"id\": \"76665\",\n                            \"structure\": \"1\"\n                        },\n                        \"description\": \"\",\n                        \"sizes\": [],\n                        \"pic\": \"\",\n                        \"main_item\": false,\n                        \"sub_item\": false,\n                        \"id\": \"76665\",\n                        \"name\": \"Dressing\"\n                    }],\n                    \"id\": \"1633809\",\n                    \"structure\": \"-1\"\n                },\n                \"description\": \"und Parmesan (inkl. 1 Dressing) \",\n                \"sizes\": [{\n                    \"price\": 4.50,\n                    \"name\": \"normal\"\n                }],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"1633809\",\n                \"name\": \"Gemischter Salat mit H\\u00e4hnchenbrustfilet \"\n        }\n\n        var flb = new core.views.FlavorsLightbox();\n        var $result = $('<a class=\"button\">Have a Gemischter Salat!</a>').click( function() {\n            flb.show(demoItem);\n            flb.on(\"flavorsChosen\", function(flavorsObj) {\n                //me.cartCollection.add(flavorsObj.selectedItemModel); //just a demo!\n            });\n        });\n        return $result;\n    }\n});\n\n//TODO: Temporarily Solution as long as backbone does not work with the current data structure\ncore.utils.flavorUtils = function(jsonData) {\n    this.jsonData = jsonData;\n    this.getItem = function(searchId) {\n        return this.getItemRecursive(this.jsonData, searchId);\n    }"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>returns the searched element or null</p>",
+      "summary": "<p>returns the searched element or null</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "this.getItemRecursive = function(curItem, searchId) {\n        if(!!curItem.items && curItem.items.length > 0) {\n            for(var i = 0, ii = curItem.items.length; i < ii; ++i) {\n                var returnValue = this.getItemRecursive(curItem.items[i], searchId);\n                if(returnValue != null) {\n                    return returnValue;\n                }\n            }\n        } else if(curItem.flavors != null && curItem.flavors.id != null && curItem.flavors.id == searchId) {\n            return curItem;\n        } else if(curItem.flavors != null && curItem.flavors.items != null && curItem.flavors.items.length > 0) {\n            var elems = curItem.flavors.items;\n            for(var i = 0, ii = elems.length; i < ii; ++i) {\n                var returnValue = this.getItemRecursive(elems[i], searchId);\n                if(returnValue != null) {\n                    return returnValue;\n                }\n            }\n        } else if(curItem.length != null && curItem.length > 0) {\n            for(var i = 0, ii = curItem.length; i < ii; ++i) {\n                var returnValue = this.getItemRecursive(curItem[i], searchId);\n                if(returnValue != null) {\n                    return returnValue;\n                }\n            }\n        } else {\n            if(curItem.id == searchId) {\n                return curItem;\n            } else {\n                return null;\n            }\n        }\n    };",
+    "ctx": {
+      "type": "method",
+      "receiver": "this",
+      "name": "getItemRecursive",
+      "string": "this.getItemRecursive()"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>returns an array of items</p>",
+      "summary": "<p>returns an array of items</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "this.getFlavorsForItem = function(id) {\n        var item = this.getItem(id);\n        if(item != null && item.flavors != null && item.flavors.items != null && item.flavors.items.length > 0) {\n            return item.flavors.items;\n        }\n        return null;\n    };\n};",
+    "ctx": {
+      "type": "method",
+      "receiver": "this",
+      "name": "getFlavorsForItem",
+      "string": "this.getFlavorsForItem()"
+    }
+  }
+]

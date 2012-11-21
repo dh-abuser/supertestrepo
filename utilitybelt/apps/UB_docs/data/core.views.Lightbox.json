@@ -1,0 +1,278 @@
+[
+  {
+    "tags": [
+      {
+        "type": "title",
+        "string": "Basic Lightbox\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "title",
+        "description": "Title\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "content",
+        "description": "Content\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Number"
+        ],
+        "name": "x",
+        "description": "X coordinate on the screen\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Number"
+        ],
+        "name": "y",
+        "description": "Y coordinate on the screen\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "tempate",
+        "description": "Path to template"
+      }
+    ],
+    "description": {
+      "full": "<p>Basic Lightbox with the title, close icon, and content</p>\n\n<h2>Example</h2>\n\n<pre><code>var lb = new core.views.Lightbox({ title: 'Some awesome title', content: 'Awesomest content' });\nlb.show();\n</code></pre>",
+      "summary": "<p>Basic Lightbox with the title, close icon, and content</p>\n\n<h2>Example</h2>\n\n<pre><code>var lb = new core.views.Lightbox({ title: 'Some awesome title', content: 'Awesomest content' });\nlb.show();\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.Lightbox', {\r\n\r\n    extend: 'core.View',\r\n\r\n    className: \"Lightbox\",\r\n\r\n    template: 'Lightbox/base.html',\r\n\r\n    events: {\r\n      \"click .top-box .close-icon\": \"hide\"\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Init blanket layer which cover the page to prevent interaction when Lightbox is modal. <br />Click on blanket close the Lightbox.</p>",
+      "summary": "<p>Init blanket layer which cover the page to prevent interaction when Lightbox is modal. <br />Click on blanket close the Lightbox.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "initBlanket: function() {\r\n        this.blanket = $('#lightbox_blanket');\r\n        this.blanket.bind('click', _.bind(this.hide, this));\r\n        this.blanket.height($(document).height());\r\n        this.blanket.width($(document).width());\r\n        // IE7 complains about blanket positioning, hence the need to\r\n        // force it explicitly at the top left corner of the window\r\n        $(this.blanket).css({'top': '0', 'left': '0', 'position': 'absolute' });\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Hide Lightbox, destroy its DOM structure, hide blanket</p>",
+      "summary": "<p>Hide Lightbox, destroy its DOM structure, hide blanket</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "hide: function() {\r\n        this.$el.trigger('hide');\r\n        this.remove(); // remove from DOM, to prevent flooding\r\n        if (this.isModal() && this.blanket) {\r\n            this.blanket.hide();\r\n        }\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Init Lightbox position and layout properties</p>",
+      "summary": "<p>Init Lightbox position and layout properties</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "initPosition: function() {\r\n        this.$el.css({ position:' fixed', 'margin': '0px' });\r\n\r\n        this.body = this.getBody();\r\n\r\n        if (this.options.height) {\r\n            this.body.height(this.options.height);\r\n            this.body.css({ 'overflow-x': 'hidden', 'overflow-y': 'auto' });\r\n        }\r\n        \r\n        if (this.options.x && this.options.y) {\r\n            this.$el.css({ top: this.options.x + 'px', left: this.options.y + 'px' })\r\n        }\r\n        else {\r\n            this.center();\r\n        }\r\n\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "constructor",
+        "string": ""
+      }
+    ],
+    "description": {
+      "full": "<p>Initialize the widget</p>",
+      "summary": "<p>Initialize the widget</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function() {\r\n\r\n        var template = this.options.template || this.template;\r\n\r\n        var me = this;\r\n        core.utils.getTemplate(template, function(tpl) {\r\n            me.render(tpl);\r\n        });\r\n\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "tpl",
+        "description": "Widget template"
+      }
+    ],
+    "description": {
+      "full": "<p>Render Lightbox</p>",
+      "summary": "<p>Render Lightbox</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "render: function(tpl) {\r\n\r\n        this.el = $(tpl);\r\n        this.$el = this.el.appendTo($('body')).hide();\r\n        this.delegateEvents();"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Assign user-defined events TODO: put in our core View wrapper</p>",
+      "summary": "<p>Assign user-defined events TODO: put in our core View wrapper</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "if (this.options.events) {\r\n            this.delegateEvents(_.extend(this.events, this.options.events));\r\n        }\r\n\r\n        this.initPosition();\r\n\r\n        var title = this.title || this.options.title || this.$el.attr('header');\r\n        if (title"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>&amp; $('.title-container', this.$el).length &lt; 1</p>",
+      "summary": "<p>&amp; $('.title-container', this.$el).length &lt; 1</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "{\r\n            this.setTitle(title);\r\n        }\r\n\r\n        var content = this.options.content;\r\n        if (content) {\r\n            this.setContent(content);\r\n        }\r\n\r\n        core.views.Lightbox.__super__.render.call(this);\r\n\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "title",
+        "description": "Lightbox Title"
+      }
+    ],
+    "description": {
+      "full": "<p>Set title for the Lightbox</p>",
+      "summary": "<p>Set title for the Lightbox</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setTitle: function(title) {\r\n        $('.title-container', this.$el).html(title);\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "content",
+        "description": "Lightbox Content"
+      }
+    ],
+    "description": {
+      "full": "<p>Set content for the Lightbox</p>",
+      "summary": "<p>Set content for the Lightbox</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setContent: function(content) {\r\n        this.getBody().html(content);\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "Boolean"
+      }
+    ],
+    "description": {
+      "full": "<p>Check if Lightbox is modal</p>",
+      "summary": "<p>Check if Lightbox is modal</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "isModal: function() {\r\n        return this.options.modal == undefined || this.options.modal === true;\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "method",
+        "string": "showError"
+      }
+    ],
+    "description": {
+      "full": "<p>Show inline error via .message element</p>",
+      "summary": "<p>Show inline error via .message element</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "showError: function(text) {\r\n        $('.message', this.$el).html(text);\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Clear error from the .message element</p>",
+      "summary": "<p>Clear error from the .message element</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "clearError: function() {\r\n        $('.message', this.$el).html('');\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Show Lightbox</p>",
+      "summary": "<p>Show Lightbox</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "show: function() {\r\n        var me = this;\r\n        me.on('render', function() {\r\n            me.clearError();\r\n            me.$el.show();\r\n            if (me.isModal()) {\r\n                me.initBlanket();\r\n                me.blanket.show();\r\n            }\r\n        });\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Center Lightbox</p>",
+      "summary": "<p>Center Lightbox</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "center: function () {\r\n        this.$el.css(\"position\", \"fixed\");\r\n        var visualFix = parseInt($(window).height()/15);\r\n        this.$el.css(\"top\", '130px');\r\n        this.$el.css(\"left\", (($(window).width() - this.$el.outerWidth()) / 2) + $(window).scrollLeft() + \"px\");\r\n        return this;\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "jQuery"
+      }
+    ],
+    "description": {
+      "full": "<p>Returns body element</p>",
+      "summary": "<p>Returns body element</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "getBody: function() {\r\n        return $('.body-box', this.$el);\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "jQuery"
+      }
+    ],
+    "description": {
+      "full": "<p>Adds link to title container and return its element</p>",
+      "summary": "<p>Adds link to title container and return its element</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addTitleLink: function(html) {\r\n        var $title_link = $('.top-box .title-link', this.$el);\r\n        return $title_link.append(html);\r\n    },\r\n\r\n    demo: function() {\r\n        var $result = $('<a class=\"button\">Click Me</a>')\r\n        .click( function() {\r\n            var lb = new core.views.Lightbox({ title: 'Some awesome title', content: 'Awesomest content' });\r\n            lb.show();\r\n        });\r\n        return $result;\r\n    }\r\n\r\n});"
+  }
+]

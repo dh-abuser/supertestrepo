@@ -1,0 +1,47 @@
+{% if (min_order_value || delivery_fee) { %}
+<ul class="meta span-12 subtotal unstyled">
+{% } %}
+
+{% if (min_order_value || delivery_fee) { %}
+<li class="min-order-value meta span-12">
+    <div class="span-1"></div>
+    <div class="span-8 name">{{ jsGetText("cart_sub_total") }}</div>
+    <div class="span-2 price right"><p class='right gray'>{{ jsFormatPrice(subtotal) }}</p></div>
+</li>
+{% } %}
+
+{% if (min_order_value) { %}
+<li class="min-order-value meta span-12">
+    <div class="span-1"></div>
+    <div class="span-8 name">
+        {{ jsGetText('cart_min_order') }} {{ jsFormatPrice(min_order_value) }}, {{ jsGetText('cart_min_order_diff') }}
+    </div>
+    <div class="span-2 price right"><p class='right gray'>{{ jsFormatPrice(difference) }}</p></div>
+</li>
+{% } %}
+
+{% if (delivery_fee) { %}
+<li class="delivery-fee meta span-12">
+    <div class="span-1"></div>
+    <div class="span-8 name">{{ jsGetText("cart_delivery_fee") }}</div>
+    <div class="span-2 price right"><p class='gray right'>{{ jsFormatPrice(delivery_fee) }}</p></div>
+</li>
+{% } %}
+
+{% if (min_order_value || delivery_fee) { %}
+</ul>
+{% } %}
+
+{% if (coupon_fee) { %}
+<li class="coupon-fee meta span-12">
+    <div class="span-1"></div>
+    <div class="span-8 name">{{ jsGetText("cart_coupon_fee") }}</div>
+    <div class="span-2 price right"><p class='gray right'>{{ jsFormatPrice(coupon_fee) }}</p></div>
+</li>
+{% } %}
+
+<li class="sum sum-menu meta span-12">
+    <div class="span-1"></div>
+    <div class="span-8 name"><strong>{{ jsGetText("cart_sum") }}</strong></div>
+    <div class="price"><strong class="tot-price right">{{ jsFormatPrice(total_price) }}</strong></div>
+</li>

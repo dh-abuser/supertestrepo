@@ -1,0 +1,91 @@
+<p>{{ jsGetText("address_form_comment") }}</p>
+
+<form class="address_form new_address small-content">
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("label") }}</label>
+            <input type="text" name="label">
+        </div>
+        <div class="span-6">
+            <label class="left">{{ jsGetText("salutation") }}</label>
+            <select name="salutation" class="span-4">
+                <option value="">&nbsp;</option>
+                <option value="Herr">{{ jsGetText("man") }}</option>
+                <option value="Frau">{{ jsGetText("woman") }}</option>
+            </select>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("name") }} *</label>
+            <input type="text" name="name">
+        </div>
+        <div class="span-6">
+            <label class="left">{{ jsGetText("lastname") }} *</label>
+            <input type="text" name="lastname">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("company") }}</label>
+            <input type="text" name="company">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("street_name") }} *</label>
+            <input type="text" name="street_name">
+        </div>
+        <div class="span-6">
+            <label class="left">{{ jsGetText("street_number") }} *</label>
+            <input type="text" name="street_number">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("etage") }}</label>
+            <input type="text" name="etage">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("zipcode") }} *</label>
+            <input type="text" name="zipcode">
+        </div>
+        <div class="span-6">
+            <label class="left">{{ jsGetText("city") }} *</label>
+            <input type="text" name="city">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("description") }}</label>
+            <input type="text" name="description">
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="span-12">
+        <div class="span-6">
+            <label class="left">{{ jsGetText("phone") }} *</label>
+            <input type="text" name="phone">
+        </div>
+        <div class="span-6">
+            <label class="left">{{ jsGetText("email") }} *</label>
+            <input type="text" name="email">
+        </div>
+    </div>
+
+    <div class="clear"></div>
+
+    <section class="buttons">
+        <a class="button action submit">{{ jsGetText("save_address") }}</a>
+        {{ jsGetText("back_to_list") }}
+    </section>
+
+</form>	

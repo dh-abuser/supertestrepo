@@ -1,0 +1,25 @@
+<div class="zipbox {{ wide ? 'span-12' : 'span-6 small' }}">
+    {% if (wide) { %}
+        <div class="span-3">
+            <h2 class="h-big">{{ jsGetText('search_location_title') }}</h2>
+        </div>
+        <div class="span-1">
+            <div class="arrow-effects"></div>
+        </div>
+    {% } else { %}
+        <div class="span-3"></div>
+        <div class="span-5">
+            <h3 class="h-medium">{{ jsGetText('search_location_title_small') }}</h3>
+        </div>
+        <div class="clear"></div>
+    {% } %}
+    <form class="big_input" method="POST" action="{{ core.utils.formatURL('/search_results/') }}">
+        <fieldset>
+            <input name="location" class="span-8 suburb" type="text" placeholder="{{ jsGetText('search_input_placeholder') }}">
+            <div class="{{ wide ? 'span-3' : 'span-2' }}">
+                <input class="button action search-zipbox menu right" type="submit" value="{{ jsGetText('search_button') }}">
+            </div>
+        </fieldset>
+    </form>
+    <a class="close close-icon"><span>Close</span></a>
+</div>

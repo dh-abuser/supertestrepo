@@ -1,0 +1,46 @@
+[
+  {
+    "tags": [
+      {
+        "type": "extends",
+        "string": "core.views.Lightbox"
+      }
+    ],
+    "description": {
+      "full": "<p>Lightbox with the User Addresses List inside </p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.UserAddressListLightbox();\nlb.show();\n</code></pre>",
+      "summary": "<p>Lightbox with the User Addresses List inside </p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.UserAddressListLightbox();\nlb.show();\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.UserAddressListLightbox', {\r\n\r\n    extend: 'core.views.Lightbox',\r\n\r\n    className: 'UserAddressListLightbox',"
+  },
+  {
+    "tags": [
+      {
+        "type": "method",
+        "string": "initialize\r"
+      },
+      {
+        "type": "constructor\r",
+        "string": ""
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Options"
+      }
+    ],
+    "description": {
+      "full": "<p>Initialize</p>",
+      "summary": "<p>Initialize</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options){\r\n\r\n        this.title = jsGetText('address_list');\r\n       \r\n        this.on('render', function() { \r\n            var lb = this;\r\n            lb.addTitleLink(jsGetText('new_address')).addClass('new-address').click(function() {\r\n                var form = new core.views.UserAddressLightbox({ title: jsGetText('new_address') });\r\n                form.show();\r\n                lb.hide();\r\n            });\r\n            this.options.openEditWidget = function(options) {\r\n                var form = new core.views.UserAddressLightbox(options);\r\n                form.show();\r\n                lb.hide();\r\n            };\r\n\r\n            var list = this.addItem(core.views.UserAddressList, this.options);\r\n            this.setAddressList(list);\r\n\r\n        });\r\n\r\n        core.views.UserAddressListLightbox.__super__.initialize.call(this);\r\n\r\n    },\r\n\r\n    setAddressList: function(list) {\r\n        this.addressList = list;\r\n    },\r\n\r\n    getAddressList: function() {\r\n        return this.addressList;\r\n    },\r\n\r\n    demo: function() {\r\n        var $result = $('<a class=\"button\">Click Me</a>')\r\n        .click( function() {\r\n            var lb = new core.views.UserAddressListLightbox({ user_id: 1 });\r\n            lb.show();\r\n        });\r\n        return $result;\r\n    }\r\n\r\n});"
+  }
+]

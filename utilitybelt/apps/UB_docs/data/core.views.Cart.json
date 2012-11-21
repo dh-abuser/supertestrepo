@@ -1,0 +1,137 @@
+[
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Cart"
+        ],
+        "name": "cart",
+        "description": "The linked Cart item"
+      }
+    ],
+    "description": {
+      "full": "<p>View for displaying a cart</p>\n\n<h2>Example</h2>\n\n<pre><code>var cart = new core.views.Cart();\ncart.renderTo($('#some_element'));\n</code></pre>",
+      "summary": "<p>View for displaying a cart</p>",
+      "body": "<h2>Example</h2>\n\n<pre><code>var cart = new core.views.Cart();\ncart.renderTo($('#some_element'));\n</code></pre>"
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.Cart', {\n    extend: 'core.View',\n    className: 'Cart',\n    template: [],\n    events: {'change select': 'sumUpdate'},\n    plugins: {\n        'select': ['spinner', {cycle: false}]\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Constructor, sets collection and templates</p>",
+      "summary": "<p>Constructor, sets collection and templates</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "initialize: function() {\n        this.collection = this.options.collection || new core.collections.Cart();\n        this.collection.bindTo(this);\n        var me = this;\n        core.utils.getTemplate('Cart/Cart.html', function(tplMain) {\n            me.template = [_.template(tplMain)];\n            core.utils.getTemplate('Cart/CartItem.html', function(tplSub) {\n                me.template.push(_.template(tplSub));\n                core.utils.getTemplate('Cart/CartSum.html', function(tplSum) {\n                    me.template.push(_.template(tplSum));\n                    // TODO use a proper load to trigger change (and rendering)\n                    me.collection.trigger('change');\n                });\n            });\n        });\n        this.collection.on('quantity:increase quantity:decrease item:add', function(item, delta) {\n            me.renderItem(item.toJSON());\n            me._renderSum();\n        });\n        this.collection.on('item:remove', function(item, delta) {\n            if (this.length) {\n                me.unRenderItem(item.get('id'));\n                me._renderSum();\n            }\n        });\n        this.collection.on('empty', function() { me.onCartEmpty(); });\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Renders widget using the collection and the templates</p>",
+      "summary": "<p>Renders widget using the collection and the templates</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "render: function() {\n        var me = this,\n            collection = me.collection,\n            template = me.template;\n        // cancel view autorefresh on collection change event\n        // TODO make this part optional in the parent class\n        collection.off('reset change');\n        var records = collection.toJSON();\n        me.$el.empty().append(template[0]());\n        if (collection.length) {\n            this._renderSum();\n            _.each(records, function(item) {\n                me.renderItem(item);\n            });\n        } else {\n            me.onCartEmpty();\n        }\n        return core.views.Cart.__super__.render.call(this);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "item",
+        "description": "A hash (produced by CartItem.toJSON())"
+      },
+      {
+        "type": "return",
+        "types": [
+          "core.views.Cart"
+        ],
+        "description": "this"
+      }
+    ],
+    "description": {
+      "full": "<p>Refreshes or adds a new item to the cart.</p>",
+      "summary": "<p>Refreshes or adds a new item to the cart.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "renderItem: function(item) {\n        var markup = this.template[1]({\n            cartItem: item,\n            currency: this.collection.currencySymbol\n        });\n        var current = this.$('.' + item.id);\n        if (current.length) {\n            current.find('select').nextAll().replaceWith(\n                $(markup).find('select').nextAll()\n            );\n        } else {\n            this.$('ul li.sum').before(markup);\n        }\n        return this;\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "return",
+        "types": [
+          "core.views.Cart"
+        ],
+        "description": "this"
+      }
+    ],
+    "description": {
+      "full": "<p>Refreshes or adds a sum row to the cart.</p>",
+      "summary": "<p>Refreshes or adds a sum row to the cart.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "_renderSum: function() {\n        var markup = this.template[2]({\n            sum: this.collection.sum,\n            currency: this.collection.currencySymbol\n        });\n        var current = this.$('ul li.sum');\n        if (current.length)\n            current.replaceWith(markup);\n        else\n            this.$('ul li:last').before(markup);\n        return this;\n    },\n\n    unRenderItem: function(id) {\n        this.$('ul li.' + id).remove();\n        if (!this.collection.length) {\n            this.onCartEmpty();\n        }\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Runs when cart is empty.</p>",
+      "summary": "<p>Runs when cart is empty.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "onCartEmpty: function() {\n        this.$('ul li').not(':last').remove();\n        var cartItems = this.$('ul');\n        $('<li>').addClass('span-12').text(jsGetText(\"cart_empty\")).prependTo(cartItems);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "e",
+        "description": "A jQuery event with a current target having a \"name\" attribute"
+      }
+    ],
+    "description": {
+      "full": "<p>Cart item change handler.<br />Its only business is to identify the modified element<br />and ask the collection to update occordingly.<br />Everything else is done by the handlers bound to the collection.</p>",
+      "summary": "<p>Cart item change handler.<br />Its only business is to identify the modified element<br />and ask the collection to update occordingly.<br />Everything else is done by the handlers bound to the collection.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "sumUpdate: function(e) {\n        var select = $(e.currentTarget),\n            q = select.val(),\n            itemId = select.attr('name').split('|').pop();\n        this.collection.update(itemId, q);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "return",
+        "types": [
+          "core.views.Cart"
+        ],
+        "description": "The view used to render a cart"
+      }
+    ],
+    "description": {
+      "full": "<p>This demo code uses some fixtures to render a cart containing some<br />items.</p>",
+      "summary": "<p>This demo code uses some fixtures to render a cart containing some<br />items.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "demo: function() {\n        var items = [\n            {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 5, \"name\": \"L\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp1\",\n                \"name\": \"Fanta*1,3,5,7 0,5L  \"\n            }, {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 20, \"name\": \"XL\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp2\",\n                \"name\": \"Pain saucisse\"\n            }\n        ];\n        var cart = new core.collections.Cart();\n        for (var i=0, bound=items.length; i<bound; i++) {\n            var p = new core.models.Item(items[i]);\n            cart.add(p, {quantity: 2*i+1});\n        }\n        var view = new core.views.Cart({collection: cart});\n        return view;\n    }\n});"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "model",
+        "description": "An instance of a user model"
+      }
+    ],
+    "description": {
+      "full": "<p>Form for User login</p>\n\n<h2>Example</h2>\n\n<pre><code>var form = new core.views.LoginForm({ model: theUser });\nform.renderTo($('#my_container'));\n</code></pre>",
+      "summary": "<p>Form for User login</p>",
+      "body": "<h2>Example</h2>\n\n<pre><code>var form = new core.views.LoginForm({ model: theUser });\nform.renderTo($('#my_container'));\n</code></pre>"
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.LoginForm', {\n    extend: 'core.views.Form',\n    className: 'LoginForm',\n    template: '',\n       \n    events: {\n        'submit form': 'authorize',\n        'click .submit': 'authorize'\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "A hash containing the view options"
+      }
+    ],
+    "description": {
+      "full": "<p>Constructor.<br />Instantiates an empty User model if none provided.<br />Renders the form with the provided template (defaults to Login/LoginForm.html).<br />Sets up authorize callbacks.</p>",
+      "summary": "<p>Constructor.<br />Instantiates an empty User model if none provided.<br />Renders the form with the provided template (defaults to Login/LoginForm.html).<br />Sets up authorize callbacks.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options) {\n        var me = this;\n        this.model = this.options.model || new core.models.User();\n        var tpl = this.options.template || 'Login/LoginForm.html';\n\n        this.model.on('authorize:grant', function() { me.authorizeSuccess.apply(me, arguments); });\n        this.model.on('authorize:deny', function() { me.authorizeError.apply(me, arguments); });\n\n        core.utils.getTemplate(tpl, function(tpl) {\n            me.render(tpl);\n        });\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "tpl",
+        "description": "The html template used to render the form"
+      }
+    ],
+    "description": {
+      "full": "<p>Renders the widget using the given template.</p>",
+      "summary": "<p>Renders the widget using the given template.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "render: function(tpl) {\n        this.template = _.template(tpl);\n        this.$el.append(this.template);\n        this.form = this.$el.find('form');\n        this.clearInvalidSimple();\n        core.views.UserAddressForm.__super__.render.call(this);\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Validates login inputs and forward authorization query to the User model.</p>",
+      "summary": "<p>Validates login inputs and forward authorization query to the User model.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "authorize: function() {\n        var data = this.getFormValues();\n        this.model.set(data, { silent: true });\n        if (!this.model.isValid()) {\n            var errors = this.model.getValidationErrors();\n            this.markInvalid(errors);\n        } else {\n            this.model.authorize(data.pwd);\n        }\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "core.models.User"
+        ],
+        "name": "user",
+        "description": "The freshly authorized user"
+      }
+    ],
+    "description": {
+      "full": "<p>Authorization success handler.</p>",
+      "summary": "<p>Authorization success handler.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "authorizeSuccess: function(user) {\n        var bits = ['Hi,', user.get('name'), user.get('last_name'), '!'];\n        this.$el.text(bits.join(' '));\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "core.models.User"
+        ],
+        "name": "user",
+        "description": "The unauthorized user"
+      }
+    ],
+    "description": {
+      "full": "<p>Authorization error handler.</p>",
+      "summary": "<p>Authorization error handler.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "authorizeError: function(user) {\n        this.markInvalidSimple([{field: 'email'}, {field: 'pwd'}])\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Demo code</p>",
+      "summary": "<p>Demo code</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "demo: function() {\n        var form = new core.views.LoginForm();\n        return form;\n    }\n});"
+  }
+]

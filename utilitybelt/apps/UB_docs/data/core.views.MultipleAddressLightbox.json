@@ -1,0 +1,112 @@
+[
+  {
+    "tags": [
+      {
+        "type": "extends",
+        "string": "core.views.Lightbox"
+      }
+    ],
+    "description": {
+      "full": "<p>Lightbox with the User Addresses List inside</p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.MultipleAddressLightbox();\nlb.show();\n</code></pre>",
+      "summary": "<p>Lightbox with the User Addresses List inside</p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.MultipleAddressLightbox();\nlb.show();\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.MultipleAddressLightbox', {\r\n\r\n    extend: 'core.views.Lightbox',\r\n\r\n    template: [\"MultipleAddress/MultipleAddress.html\"],\r\n\r\n    events: {\r\n        \"click .top-box .close-icon\": \"hide\"\r\n        // ,\"click li\": \"addressSelectHandler\"\r\n    },\r\n\r\n    __shown: false,\r\n\r\n    className: 'MultipleAddressLightbox',"
+  },
+  {
+    "tags": [
+      {
+        "type": "constructor\r",
+        "string": ""
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Options"
+      }
+    ],
+    "description": {
+      "full": "<p>Constructor</p>",
+      "summary": "<p>Constructor</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options) {\r\n        this.locations = this.options.locations;\r\n        var me = this;\r\n        this.title = jsGetText(\"multiple_addresses\");\r\n\r\n        core.utils.getTemplate(me.template, function(tpl) {\r\n            me.template = _.template(tpl)();\r\n        });\r\n\r\n        this.on('render', function() {\r\n            //adding the map and the list\r\n            me.initPosition();\r\n            me.map = me.addItem(core.views.Map, me.locations, \".maps\");\r\n            me.map.on(\"markerClick\", function(elem) {\r\n                me.addressMapSelectHandler.call(me, elem)\r\n            });\r\n            var listOptions = {\r\n                addresses: me.locations,\r\n                getBackgroundCSS: me.getBackgroundCSS\r\n            };\r\n            me.map.render();\r\n            me.list = me.addItem(core.views.MultipleAddressList, me.options, \".streets\");\r\n            me.list.on(\"locationSelected\", function(elem) {\r\n                me.addressSelectHandler.call(me, elem);\r\n            });\r\n            me.list.render();\r\n        });\r\n    },\r\n    addItem: function(type, config, place) {\r\n        if(place != null) {\r\n            var positionElement = $('.body-box', this.$el).find(place);\r\n            var new_el = new type(config);\r\n            $(positionElement).html(new_el.$el);\r\n            return new_el;\r\n        } else if(this.getBody) {\r\n            core.views.MultipleAddressLightbox.__super__.addItem.call(this, type, config);\r\n        }\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "list",
+        "description": ""
+      }
+    ],
+    "description": {
+      "full": "<p>setAddressList</p>",
+      "summary": "<p>setAddressList</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setAddressList: function(list) {\r\n        this.addressList = list;\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "",
+      "summary": "",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "getAddressList: function() {\r\n        return this.addressList;\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "elem",
+        "description": ""
+      }
+    ],
+    "description": {
+      "full": "<p>addressSelectHandler</p>",
+      "summary": "<p>addressSelectHandler</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addressSelectHandler: function(elem) {\r\n        //TODO do something here\r\n        this.trigger(\"locationSelected\", elem);\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "elem",
+        "description": ""
+      }
+    ],
+    "description": {
+      "full": "<p>addressMapSelectHandler</p>",
+      "summary": "<p>addressMapSelectHandler</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addressMapSelectHandler: function(elem) {\r\n        //TODO do something here\r\n        this.trigger(\"locationSelected\", elem);\r\n    },\r\n    hide: function() {\r\n        //TODO as soon as we have a container object which keeps children we can add them here\r\n        this.map.hide();\r\n        this.list.remove();\r\n        this.$el.remove();\r\n        this.__shown = false;\r\n    },\r\n    demo: function() {\r\n\r\n        var locations = {\r\n            \"pagination\": {\r\n                \"total_items\": 2,\r\n                \"limit\": 10,\r\n                \"total_pages\": 1,\r\n                \"page\": 1,\r\n                \"offset\": 0\r\n            },\r\n            \"data\": [{\r\n                \"uri_search\": \"http://mockapi.lieferheld.de/restaurants/?city=berlin&lat=45.23234&long=37.77234\",\r\n                \"address\": {\r\n                    \"city_slug\": \"berlin\",\r\n                    \"city\": \"Berlin\",\r\n                    \"street_number\": \"60\",\r\n                    \"latitude\": 45.232340000000001,\r\n                    \"country\": \"DE\",\r\n                    \"street_name\": \"Mohrenstrasse\",\r\n                    \"zipcode\": \"10117\",\r\n                    \"longitude\": 37.77234\r\n                }\r\n            }, {\r\n                \"uri_search\": \"http://mockapi.lieferheld.de/restaurants/?city=berlin&lat=46.2004&long=37.88774\",\r\n                \"address\": {\r\n                    \"city_slug\": \"berlin\",\r\n                    \"city\": \"Berlin\",\r\n                    \"street_number\": \"59\",\r\n                    \"latitude\": 46.40000000000002,\r\n                    \"country\": \"DE\",\r\n                    \"street_name\": \"Mohrenstrasse\",\r\n                    \"zipcode\": \"10117\",\r\n                    \"longitude\": 37.887740000000001\r\n                }\r\n            }, {\r\n                \"uri_search\": \"http://mockapi.lieferheld.de/restaurants/?city=berlin&lat=46.2004&long=37.88774\",\r\n                \"address\": {\r\n                    \"city_slug\": \"berlin\",\r\n                    \"city\": \"Berlin\",\r\n                    \"street_number\": \"59\",\r\n                    \"latitude\": 46.200400000000002,\r\n                    \"country\": \"DE\",\r\n                    \"street_name\": \"Mohrenstrasse\",\r\n                    \"zipcode\": \"10117\",\r\n                    \"longitude\": 37.987740000000001\r\n                }\r\n            }, {\r\n                \"uri_search\": \"http://mockapi.lieferheld.de/restaurants/?city=berlin&lat=46.2004&long=37.88774\",\r\n                \"address\": {\r\n                    \"city_slug\": \"berlin\",\r\n                    \"city\": \"Berlin\",\r\n                    \"street_number\": \"59\",\r\n                    \"latitude\": 46.400400000000002,\r\n                    \"country\": \"DE\",\r\n                    \"street_name\": \"Mohrenstrasse\",\r\n                    \"zipcode\": \"10117\",\r\n                    \"longitude\": 37.987740000000001\r\n                }\r\n            }]\r\n        };\r\n\r\n        var $result = $('<a class=\"button\">Click Me</a>')\r\n        .click( function() {\r\n            var lb = new core.views.MultipleAddressLightbox({\r\n                locations: locations.data\r\n            });\r\n            lb.show();\r\n        });\r\n        return $result;\r\n    }\r\n});"
+  }
+]

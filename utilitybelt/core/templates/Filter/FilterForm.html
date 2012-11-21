@@ -1,0 +1,72 @@
+<section class="margin-top filter-form-wrapper">
+    <div class="default-box span-12 filter">
+        <div class="body-box">
+            <div class="span-3">
+                <div class="button small arrow hideshow">
+                    <p class="span-9">
+                        <span class="label normalcase"></span>
+                    </p>
+                    <div class="span-2">
+                        <span class="arrow"></span>
+                    </div>
+                </div>
+            </div>
+            <!-- 
+            <div class="span-2"></div>
+            <div class="span-4 search">
+                <p class="left">oder</p> <input type="text" placeholder="Suche nach Pizza Salami..." />
+            </div>
+            <div class="span-3 suchen">
+                <div class="button menu small right">
+                    SUCHEN
+                </div>
+            </div>
+            -->
+        </div>
+    </div>
+    <div class="clear"></div>
+    <form>
+        <div class="span-12 body-filter">
+            <h4 class="h-small span-8 margin-left normalcase"><b>{{ jsGetText('categories') }}</b></h4>
+            <h4 class="h-small span-3 normalcase"><b>{{ jsGetText('options') }}</b></h4>
+            <div class="span-12 border-bottom"></div>
+            <div class="span-8">
+                <ul class="input-list margin-left">
+                    {% _.each(categories, function(category, key, list) { %}
+                    <li class="left category-list">
+                        <input name="{{ category.name }}" class="category" type="checkbox" />
+                        <label class="normalcase" for="{{ category.name }}">{{ jsGetText(category.name) }}</label>
+                    </li>
+                    {% }); %}
+                </ul>
+            </div>
+            <div class="span-4 option-column">
+                <ul class="input-list">
+                    {% _.each(options, function(option) { %}
+                    <li>
+                        <input name="{{ option.name }}" type="checkbox" value="true" />
+                        <label class="normalcase" for="category-{{ option.name }}">{{ jsGetText(option.name) }}</label>
+                    </li>
+                    {% }); %}
+                </ul>
+            </div>
+            <div class="clear"></div>
+            <div class="span-12">
+                <div class="span-4 select-all">
+                    <ul class="input-list">
+                        <li>
+                            <input type="checkbox" class="filter-category-select-all" name="all" />
+                            <label class="normalcase" for="all">{{ jsGetText('select_all') }}</label>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                    <div class="button action right">
+                        {{ jsGetText('apply_filters') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </form>
+</section>

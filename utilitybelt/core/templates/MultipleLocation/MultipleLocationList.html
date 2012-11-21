@@ -1,0 +1,13 @@
+<ul class="unstyled">
+	{%
+	locations.each(function(current, index) {
+	var address = current.get('address');
+	%}
+	<li style='cursor: pointer;{{ getBackgroundCSS(index) }}' key='{{ index }}'>
+            <h5 class="h-small normalcase p-font">{{ core.utils.formatAddress(address) }}</h5>
+            <p>
+            {{ address.zipcode + " " + address.city }}
+            </p>
+	</li>{%
+	}); %}
+</ul>

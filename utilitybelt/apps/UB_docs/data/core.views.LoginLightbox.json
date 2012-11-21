@@ -1,0 +1,56 @@
+[
+  {
+    "tags": [
+      {
+        "type": "extends",
+        "string": "core.views.Lightbox"
+      }
+    ],
+    "description": {
+      "full": "<p>Lightbox with the Login Form inside</p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.LoginLightbox({ title: jsGetText('login') });\nlb.show();\n</code></pre>",
+      "summary": "<p>Lightbox with the Login Form inside</p>",
+      "body": "<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.LoginLightbox({ title: jsGetText('login') });\nlb.show();\n</code></pre>"
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.LoginLightbox', {\n\n    extend: 'core.views.Lightbox',"
+  },
+  {
+    "tags": [
+      {
+        "type": "method",
+        "string": "initialize"
+      },
+      {
+        "type": "constructor",
+        "string": ""
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Options passed to the login form view"
+      }
+    ],
+    "description": {
+      "full": "<p>Constructor.</p>",
+      "summary": "<p>Constructor.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options) {\n        this.on('render', function() {\n            var lb = this;\n            this.addItem(core.views.LoginForm, this.options);\n        });\n        core.views.LoginLightbox.__super__.initialize.call(this);\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Demo code.</p>",
+      "summary": "<p>Demo code.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "demo: function() {\n        var $result = $('<a class=\"button\">Click Me</a>')\n        .click(function() {\n            var lb = new core.views.LoginLightbox({ title: jsGetText('login_title') });\n            lb.show();\n        });\n        return $result;\n    }\n});"
+  }
+]

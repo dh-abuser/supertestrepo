@@ -1,0 +1,91 @@
+ <div class="body-box noborder formpayment">
+    <div class="newpayment">
+        <fieldset class="orderform">
+            <ul>
+                {% _.each(payment_methods, function(method){ %}
+                    <li data-payment-method='{{ method.name }}' data-payment-method-id='{{ method.id }}' class="paymentBox left paypalli
+                        {% if(selected_payment && method.name==selected_payment.name) { %}
+                            active
+                        {% } %}
+                        ">
+                           <span class="left radio">
+                                <input type="radio" name="centralpayment" value="{{ method.id }}" 
+                                    {% if(selected_payment && method.name == selected_payment.name) { %}
+                                        checked="checked"
+                                    {% } %}
+                                />
+                           </span>
+                           <label class="{{ method.name }} block left"></label>
+                    </li>
+                {% }); %}
+            </ul>
+
+            <div class="clear"></div>
+            
+            {% if (selected_payment) { %}
+            <div class="paymentInfo">
+                <div class="paymentSection{% if(canDisplayCoupon()){ %} not-last-section{% } %}">
+                    <h3 class="h-smallest p-font">{{ jsGetText('payment_note') }}</h3>
+                    <p class="payment_info_notification">
+                        {{ jsGetText("payment_"+selected_payment.name) }}
+                    </p>
+                </div>
+                
+                {% if(canDisplayCoupon()){ %}
+                    <div class="paymentSection coupon" id="box_cop">
+                        <div class="span-5 margin-right-none">
+                            <span class="icon_coupon"></span>
+                        </div>
+                        <div class="span-6 right">
+                        	<span class="span-6 coupon-text">{{ jsGetText('coupon_question') }}</span>
+	                        <div class="have_coupon span-3 right">
+	                            <input class="order_form_coupon_code formInputfield
+	                                {% if(validity.coupon && coupon.code){ %}
+	                                    valid
+	                                {% } else if(!validity.coupon && enteredCoupon) { %}
+	                                    invalid
+	                                {% } %}
+	                            " type="text" name="coupon_code" value="{{ coupon.code || enteredCoupon }}">
+	                        </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="order_form_coupon_status">
+                            <div class="loading" style="display:none;">
+                                <span class="ajax-icon"></span>
+                                <span class="message">{{jsGetText('loading') }}</span>
+                            </div> 
+
+                            {% if(validity.coupon && coupon.code ) { %}
+                                <div class="valid-msg">
+                                    <span class="right-icon"></span>
+                                    <span class="message">{{jsGetText('coupon_good', core.utils.formatPrice(price_details.coupon_fee)) }}</span>
+                                </div>
+                            {% } else if(!validity.coupon && enteredCoupon ) { %}
+                                <div class="invalid-msg">
+                                    <span class="wrong-icon"></span>
+                                    <span class="message">{{jsGetText('coupon_bad') }}</span>
+                                </div>
+                            {% } %}
+                            
+                        </div>
+                    </div>
+                {% } %}
+            </div>
+            {% } %}
+        </fieldset>
+        <div class="default-box total">
+            <div class="top-box total">
+                <div class="span-8">
+                    <h6 class="h-smallest p-font"><b>The total</b></h6>
+                </div>
+                <div class="span-3 right">
+                    <div class="white-bg">
+                        <h3 class="h-medium p-font right payment_total"> {{ core.utils.formatPrice(price_details.total_price) }}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

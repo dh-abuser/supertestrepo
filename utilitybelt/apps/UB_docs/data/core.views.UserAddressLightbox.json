@@ -1,0 +1,46 @@
+[
+  {
+    "tags": [
+      {
+        "type": "extends",
+        "string": "core.views.Lightbox"
+      }
+    ],
+    "description": {
+      "full": "<p>Lightbox with the User Address Form inside </p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.UserAddressLightbox({ id: 1, title: jsGetText('save_address') }); // fetch the record from the back-end\nlb.show();\n\nvar lb2 = new core.views.UserAddressLightbox({ record: { ... } }); // use the predefined record\n\nvar lb3 = new core.views.UserAddressLightbox({ title: jsGetText('new_address') }); // open empty form\nlb3.on('render', function(lightbox) {  // populate with data\n    lightbox.getForm().populate( { ... } ) \n});\n</code></pre>",
+      "summary": "<p>Lightbox with the User Address Form inside </p>\n\n<h2>Examples</h2>\n\n<pre><code>var lb = new core.views.UserAddressLightbox({ id: 1, title: jsGetText('save_address') }); // fetch the record from the back-end\nlb.show();\n\nvar lb2 = new core.views.UserAddressLightbox({ record: { ... } }); // use the predefined record\n\nvar lb3 = new core.views.UserAddressLightbox({ title: jsGetText('new_address') }); // open empty form\nlb3.on('render', function(lightbox) {  // populate with data\n    lightbox.getForm().populate( { ... } ) \n});\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.UserAddressLightbox', {\r\n\r\n    extend: 'core.views.Lightbox',"
+  },
+  {
+    "tags": [
+      {
+        "type": "method",
+        "string": "initialize\r"
+      },
+      {
+        "type": "constructor\r",
+        "string": ""
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Options"
+      }
+    ],
+    "description": {
+      "full": "<p>Initialize</p>",
+      "summary": "<p>Initialize</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function(options){\r\n       \r\n        this.on('render', function() { \r\n            var lb = this;\r\n            this.options.onSuccess = function() { \r\n                lb.hide(); \r\n            \tnew core.views.UserAddressListLightbox().show();\r\n            };\r\n            this.options.onBackLinkClick = function() { \r\n                lb.hide(); \r\n            \tnew core.views.UserAddressListLightbox().show();\r\n            };\r\n            this.addItem(core.views.UserAddressForm, this.options);\r\n        });\r\n\r\n        core.views.UserAddressLightbox.__super__.initialize.call(this);\r\n\r\n    },\r\n\r\n    demo: function() {\r\n        var $result = $('<a class=\"button\">Click Me</a>')\r\n        .click( function() {\r\n            var lb = new core.views.UserAddressLightbox({ id: 1, title: jsGetText('save_address') });\r\n            lb.show();\r\n        });\r\n        return $result;\r\n    }\r\n\r\n    \r\n});"
+  }
+]

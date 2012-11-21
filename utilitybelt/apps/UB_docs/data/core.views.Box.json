@@ -1,0 +1,150 @@
+[
+  {
+    "tags": [
+      {
+        "type": "title",
+        "string": "Basic Box"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "title",
+        "description": "Title"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "content",
+        "description": "Content"
+      },
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "tempate",
+        "description": "Path to template"
+      }
+    ],
+    "description": {
+      "full": "<p>Basic Box with the configurable header, footer, and content</p>\n\n<h2>Example</h2>\n\n<pre><code>var bb = new core.views.Box({ title: 'Some awesome title', content: 'Awesomest content', el: $('#box-container') });\nbb.show();\n</code></pre>",
+      "summary": "<p>Basic Box with the configurable header, footer, and content</p>",
+      "body": "<h2>Example</h2>\n\n<pre><code>var bb = new core.views.Box({ title: 'Some awesome title', content: 'Awesomest content', el: $('#box-container') });\nbb.show();\n</code></pre>"
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.Box', {\n\n    extend: 'core.View',\n\n    className: \"Box\",\n\n    template: 'Box/base.html',"
+  },
+  {
+    "tags": [
+      {
+        "type": "constructor",
+        "string": ""
+      }
+    ],
+    "description": {
+      "full": "<p>Initialize the widget</p>",
+      "summary": "<p>Initialize the widget</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function() {\n\n        var template = this.options.template || this.template;\n\n        var me = this;\n        core.utils.getTemplate(template, function(tpl) {\n            me.template = tpl;\n            me.render(tpl);\n        });\n    },\n\n    render: function(tpl) {\n        tpl = tpl || this.template;\n        this.el = _.template(tpl, { some: 'here' });\n        this.appendElement(this.el);\n\n        var title = this.title || this.options.title || this.$el.attr('header');\n        if (title"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>&amp; $('.title-container', this.$el).length &lt; 1</p>",
+      "summary": "<p>&amp; $('.title-container', this.$el).length &lt; 1</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "{\n            this.setTitle(title);\n        }\n\n        var content = this.options.content;\n        if (content) {\n            this.setContent(content);\n        }\n\n        core.views.Box.__super__.render.call(this);\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Method for appending the final mark-up to DOM. By default, adds it to the this.el<br />Should be overriden for Lightbox-alike widgets (which render themself to the <body>).</p>",
+      "summary": "<p>Method for appending the final mark-up to DOM. By default, adds it to the this.el<br />Should be overriden for Lightbox-alike widgets (which render themself to the <body>).</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "appendElement: function(el) {\n        this.$el.empty().append(el);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "title",
+        "description": "Lightbox Title"
+      }
+    ],
+    "description": {
+      "full": "<p>Set title for the Lightbox</p>",
+      "summary": "<p>Set title for the Lightbox</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setTitle: function(title) {\n        this.$('.title-container').html(title);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "content",
+        "description": "Lightbox Content"
+      }
+    ],
+    "description": {
+      "full": "<p>Set content for the Lightbox</p>",
+      "summary": "<p>Set content for the Lightbox</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setContent: function(content) {\n        this.getBody().html(content);\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "jQuery"
+      }
+    ],
+    "description": {
+      "full": "<p>Returns body element</p>",
+      "summary": "<p>Returns body element</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "getBody: function() {\n        return this.$('.body-box');\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "jQuery"
+      }
+    ],
+    "description": {
+      "full": "<p>Adds link to title container and return its element</p>",
+      "summary": "<p>Adds link to title container and return its element</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addTitleLink: function(html) {\n        var $title_link = this.$('.top-box .title-link');\n        return $title_link.append(html);\n    },\n\n    demo: function() {\n        var bb = new core.views.Box({ title: 'Box title' });\n        return bb;\n    }\n});"
+  }
+]

@@ -1,0 +1,7 @@
+language: python
+python:
+  - "2.7"
+before_script:
+  - python -m SimpleHTTPServer
+script:
+  - wget http://0.0.0.0:8000/utilitybelt/utilitybelt/tests/jasmine/SpecRunner.html

@@ -1,0 +1,8 @@
+<ul class="unstyled">
+</ul>
+
+{% if (!cart.readOnly) { %}
+
+<a class="button action checkout disabled {{ cart.preorder ? 'preorder' : '' }}">{{ jsGetText(cart.preorder ? 'preorder' : 'checkout') }}</a>
+
+{% } %}
