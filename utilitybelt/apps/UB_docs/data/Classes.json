@@ -1,0 +1,30 @@
+[
+    { "category": "Box", "items": [
+        { "className": "core.views.Box", "title": "Basic box" },
+        { "className": "core.views.CartBox", "title": "Cart box" },
+        { "className": "core.views.ReadOnlyCartBox", "title": "Cart box (read only)" }
+    ] },
+
+    { "category": "Lightboxes", "items": [
+
+        { "className": "core.views.Lightbox", "title": "Basic lightbox" },
+        { "className": "core.views.UserAddressListLightbox", "title": "User addresses" },
+        { "className": "core.views.UserAddressLightbox", "title": "New address form in the lightbox" },
+        { "className": "core.views.LoginLightbox", "title": "Login form in the lightbox" },
+        { "className": "core.views.MultipleAddressLightbox", "title": "Multiple Addresses" },
+        { "className": "core.views.FlavorsLightbox", "title": "Flavors Lightbox" }
+    ] },
+
+    { "category": "Forms", "items": [
+        { "className": "core.views.Form", "title": "Basic form" },
+        { "className": "core.views.UserAddressForm", "title": "New address form" },
+        { "className": "core.views.LoginForm", "title": "Login form" }
+    ] },
+
+    { "category": "Views", "items": [
+        { "className": "core.View", "title": "Basic view" },
+        { "className": "core.views.UserAddressList", "title": "List of addresses" },
+        { "className": "core.views.Cart", "title": "Cart" },
+        { "className": "core.views.AddressSearch", "title": "AddressSearch" }
+    ] }
+]

@@ -1,0 +1,10 @@
+<ul class="error_messages">
+    <h3 class="h-big error">Attention!</h3>
+    {% _.each(errors, function(error, index) { %}
+        {% if (error.supressi18n) { %}
+            <li>{{ error.msg }}</li>
+        {% } else { %}
+            <li>{{ jsGetText(error.msg) }}</li>
+        {% } %}
+    {% }); %}
+</ul>

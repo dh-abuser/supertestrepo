@@ -1,0 +1,84 @@
+[
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "String"
+        ],
+        "name": "template",
+        "description": "Template code"
+      }
+    ],
+    "description": {
+      "full": "<p>Basic core View, all views (widgets) should extend it    </p>",
+      "summary": "<p>Basic core View, all views (widgets) should extend it    </p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.View', {\r\n\r\n    extend: 'Backbone.View',"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Runs on widget's render, triggers 'render' event</p>",
+      "summary": "<p>Runs on widget's render, triggers 'render' event</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "render: function(arg1, arg2) {\r\n\r\n        var me = this;\r\n        setTimeout( function() {\r\n            me.trigger('render');\r\n        }, 1);\r\n\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "jQuery"
+        ],
+        "name": "ct",
+        "description": "Jquery container to render to"
+      }
+    ],
+    "description": {
+      "full": "<p>Renders widget to specified cotainer</p>",
+      "summary": "<p>Renders widget to specified cotainer</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "renderTo: function(ct) {\r\n        var me = this;\r\n        this.on('render', function() {\r\n            ct.empty().append(me.$el);\r\n        });\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Class"
+        ],
+        "name": "type",
+        "description": "Class name which should be added\r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "config",
+        "description": "Class config options\r"
+      },
+      {
+        "type": "returns",
+        "string": "added element"
+      }
+    ],
+    "description": {
+      "full": "<p>Adds an instance of the \"type\" widget into the body (container returned by the getBody() method)</p>",
+      "summary": "<p>Adds an instance of the \"type\" widget into the body (container returned by the getBody() method)</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addItem: function(type, config) {\r\n        if (this.getBody) {\r\n            var $body = this.getBody();\r\n            var new_el = new type(config);\r\n            $body.append(new_el.$el); \r\n            return new_el;\r\n        }\r\n    },\r\n\r\n    demo: function() {\r\n       return $('<div><p>See <a href=\"#core.views.UserAddressList\">core.views.UserAddressList</a></p></div>')\r\n    }\r\n\r\n});"
+  }
+]

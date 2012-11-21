@@ -1,0 +1,48 @@
+[
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Shopping Cart container, for inline display.</p>",
+      "summary": "<p>Shopping Cart container, for inline display.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "core.define('core.views.CartBox', {\n    extend: 'core.views.Box',\n    className: \"CartBox\",\n\n    initialize: function() {\n        core.views.CartBox.__super__.initialize.call(this);\n        var me = this;\n        this.on('render', function() {\n            me.addClearAllButton();\n            me.addPaymentIcons(this.options.paymentIcons);\n            me.addItem(core.views.Cart, this.options.cart || {});\n        });\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "jQuery"
+      }
+    ],
+    "description": {
+      "full": "<p>Adds 'clear cart' button</p>",
+      "summary": "<p>Adds 'clear cart' button</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "addClearAllButton: function(el) {\n        var html = '<div tooltip=\"' + jsGetText('clear_cart') + '\" class=\"span-2 cart-delete\"></div>';\n        var $btn = $(html);\n        var $title = $('.top-box', this.$el);\n        $btn.on('click', _.bind(this.onClearBtnClick, this));\n        return $btn.appendTo($title);\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Adds payment icons</p>",
+      "summary": "<p>Adds payment icons</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "addPaymentIcons: function(icons) {\n        var $footer = this.$('section > div:last');\n        _.each(icons, function(icon) {\n            $('<div>').addClass(icon.css).attr('tooltip', icon.tooltip).appendTo($footer);\n        });\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Handler for the 'clear cart' button</p>",
+      "summary": "<p>Handler for the 'clear cart' button</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "onClearBtnClick: function() {\n        this.getItem().collection.empty();\n    },\n\n    demo: function() {\n        var items = [\n            {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 5, \"name\": \"L\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp1\",\n                \"name\": \"Fanta*1,3,5,7 0,5L  \"\n            }, {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 20, \"name\": \"XL\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp2\",\n                \"name\": \"Pain saucisse\"\n            }\n        ];\n        var cart = new core.collections.Cart();\n        for (var i=0, bound=items.length; i<bound; i++) {\n            var p = new core.models.Item(items[i]);\n            cart.add(p, {quantity: 2*i+1});\n        }\n\n        var bb = new core.views.CartBox({\n            title: jsGetText('shopping_cart'),\n            paymentIcons: [\n                { css: 'cashPaymentIcons', tooltip: 'Barzahlung' },\n                { css: 'onlinePaymentIcons', tooltip: 'Onlinezahlung' }\n            ],\n            cart: {collection: cart}\n        });\n        return bb;\n    }\n});"
+  }
+]

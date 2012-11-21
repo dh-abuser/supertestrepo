@@ -1,0 +1,278 @@
+[
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Basic Form widget</p>",
+      "summary": "<p>Basic Form widget</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "core.define('core.views.Form', {\r\n\r\n    extend: 'core.View',\r\n\r\n    className: \"Form\","
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Define events mapping</p>",
+      "summary": "<p>Define events mapping</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "events: {\r\n      \"click input.submit\": \"submit\",\r\n      \"submit form\": \"submit\",\r\n      \"keypress input[type=text],textarea\": \"keypress\"\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "returns",
+        "string": "core.views.Form\r"
+      },
+      {
+        "type": "constructor",
+        "string": ""
+      }
+    ],
+    "description": {
+      "full": "<p>Constructor</p>",
+      "summary": "<p>Constructor</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "initialize: function() {\r\n        this.validations = this.options.validations;\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Focus on the first field and select its content</p>",
+      "summary": "<p>Focus on the first field and select its content</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "selectFirstField: function() {\r\n\r\n        var fields = $('input:visible', this.el);\r\n        if (fields && fields[0]) {\r\n            var field = $(fields[0]);\r\n            if (field && field.focus && field.val) {\r\n                field.focus();\r\n                if (field.val()!='' && field.val()!=field.attr('placeholder'))\r\n                    field.select();\r\n            }\r\n        }\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "ArrayOfObject"
+        ],
+        "name": "errors",
+        "description": "Array of errors"
+      }
+    ],
+    "description": {
+      "full": "<p>Mark fields via flashing in this form invalid in bulk.</p>",
+      "summary": "<p>Mark fields via flashing in this form invalid in bulk.</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "markInvalid: function(errors) { // TODO: rewrite completely, animation is terrible \r\n\r\n        for (var i=0,ii=errors.length; i<ii; i++) {\r\n\r\n            var input = $('input[name=\"' + errors[i].field + '\"]:visible', this.el);"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Save placeholder value before flashing</p>",
+      "summary": "<p>Save placeholder value before flashing</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "if (input.val) {\r\n                input.attr('save_val', input.attr('placeholder'));\r\n                input.attr('placeholder', '');\r\n            }\r\n            \r\n            //-- Saving background --\r\n            input.attr('save_background', input.css('background-color')); \r\n            \r\n            //adding error message if defined and put in html pwojcieszuk\r\n            if(input.parent().children('.error_message').size() > 0)\r\n            \tinput.parent().children('.error_message').text(errors[i].message);\r\n             \r\n            if (input.animate) {\r\n                input.animate({backgroundColor: '#fffcb7'}, 300, function(){ // todo: convert to animation function\r\n                    $(this).animate({backgroundColor: '#fff'}, 200, function(){\r\n                        $(this).animate({backgroundColor: '#fffcb7'}, 300, function(){\r\n                            $(this).animate({backgroundColor: '#fff'}, 200, function(){\r\n                                $(this).animate({backgroundColor: '#fffcb7'}, 300, function(){\r\n                                    $(this).animate({backgroundColor: '#fff'}, 200, function(){\r\n                                       $(this).attr('placeholder', $(this).attr('save_val'));\r\n                                       \r\n                                       //-- Fix to avoid wide background in some fields --\r\n                \t\t\t\t\t   $(this).css('background-color', $(this).attr('save_background'));\r\n                                    });\r\n                                });\r\n                            });\r\n                        });\r\n                    });\r\n                }); \r\n            }\r\n        }\r\n        \r\n        return false;\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "ArrayOfObjects"
+        ],
+        "name": "errors",
+        "description": "Array of errors"
+      }
+    ],
+    "description": {
+      "full": "<p>Mark invalid via simple label color change </p>",
+      "summary": "<p>Mark invalid via simple label color change </p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "markInvalidSimple: function(errors) {\r\n         var form = this.$el;\r\n         this.clearInvalidSimple();\r\n         for (var i=0,ii=errors.length; i<ii; i++) {\r\n             var error = errors[i];\r\n             $('input[name=\"' + error.field + '\"]', form).parent('div').addClass('input-error');\r\n         }\r\n     },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Clear invalid simple</p>",
+      "summary": "<p>Clear invalid simple</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "clearInvalidSimple: function() {\r\n         var form = this.$el;\r\n         $('input', form).parent('div').removeClass('input-error');\r\n     },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Show inline loading spinner</p>",
+      "summary": "<p>Show inline loading spinner</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "showSpinner: function() {\r\n        $('.spinner', this.el).show();\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Hide inline loading spinner</p>",
+      "summary": "<p>Hide inline loading spinner</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "hideSpinner: function() {\r\n        $('.spinner', this.el).hide();\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "ArrayOfObjects"
+        ],
+        "name": "values",
+        "description": "Array of values"
+      }
+    ],
+    "description": {
+      "full": "<p>Set form values </p>",
+      "summary": "<p>Set form values </p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "setValues: function(mdl) {\r\n\r\n        var values =  mdl.attributes || mdl;\r\n\r\n        if (values) {\r\n            for (var field in values) {\r\n                var field_el = $('input[name=\"' + field + '\"]', this.el);\r\n                if (field_el.length)\r\n                    field_el.val(values[field]);\r\n            }\r\n        }\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>On key press handler</p>",
+      "summary": "<p>On key press handler</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "keypress: function(ev) {"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>f there was an error message and the input is being filled again, remove error message</p>",
+      "summary": "<p>f there was an error message and the input is being filled again, remove error message</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "var changedInput = $(\"input[name='\" + ev.target.name +\"']\");\r\n    \tif(changedInput.parent().children('.error_message').size() > 0)\r\n    \t\tchangedInput.parent().children('.error_message').text('');\r\n    },",
+    "ctx": {
+      "type": "declaration",
+      "name": "changedInput",
+      "value": "$(\"input[name='\" + ev.target.name +\"']\")",
+      "string": "changedInput"
+    }
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "data",
+        "description": "Form data \r"
+      },
+      {
+        "type": "returns",
+        "string": "{ArrayOfObjects} errors Array of errors"
+      }
+    ],
+    "description": {
+      "full": "<p>Validate form data against validations defined on Model [DEPRECATED] Use Model.validate </p>",
+      "summary": "<p>Validate form data against validations defined on Model [DEPRECATED] Use Model.validate </p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "validate: function(data) {\r\n        var errors = []; // basic validations, afterwards we'll use more solid library for this\r\n        var validations = this.model.validations;\r\n        for (var i in validations) {\r\n            var validation = validations[i],\r\n                field = validation.field,\r\n                field_el = $('input:visible[name=\"' + field + '\"]', this.el),\r\n                visible = (field_el.size() > 0),\r\n                field_empty = ($.trim(data[field])+''=='' || field_el.attr('placeholder') == field_el.val());\r\n\r\n            if (visible && field_empty && validation['type'] == 'required') {\r\n        \terrorMessage = (validation['message_key'])? jsGetText(validation['message_key']): 'Field is required';\r\n            \terrors.push({ field: field, type: 'required', message: errorMessage });\r\n            }\r\n        }\r\n        return errors;\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "data",
+        "description": "Form data \r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Ajax call options ('url', 'type' and 'success' for success callback)"
+      }
+    ],
+    "description": {
+      "full": "<p>Send form data via jQuery's Ajax call<br />Use inline spinner as a loading indicator</p>",
+      "summary": "<p>Send form data via jQuery's Ajax call<br />Use inline spinner as a loading indicator</p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "send: function(data, options) {\r\n        var me = this;\r\n        this.showSpinner();\r\n        $.ajax({\r\n            url: options.url,\r\n            type: options.type || 'post',\r\n            dataType: 'json',\r\n            success: _.bind(options.success, this),\r\n            error: function()  { me.hideSpinner; console.log('error', arguments) },\r\n//            complete: this.hideSpinner,\r\n            data: data\r\n        });\r\n    },"
+  },
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "data",
+        "description": "Form data \r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Object"
+        ],
+        "name": "options",
+        "description": "Ajax call options ('url', 'type' and 'success' for success callback)"
+      }
+    ],
+    "description": {
+      "full": "<p>Submit form handler<br />Serialize form data and validate it. If validation succeeds, send it, if failed -- use markInvalid to mark errors </p>",
+      "summary": "<p>Submit form handler<br />Serialize form data and validate it. If validation succeeds, send it, if failed -- use markInvalid to mark errors </p>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "submit: function() {\r\n\r\n        var options = this.options, validations = this.validations, me = this;\r\n\r\n        var form = this.options.form || this.el;\r\n\r\n        // TODO: visible selector should be removed, it was temporary patch\r\n        var data = {}, data_arr = $('input', form).serializeArray();\r\n\r\n        for (var i=0,ii=data_arr.length; i<ii; i++) {\r\n            data[data_arr[i].name] = data_arr[i].value;\r\n        }\r\n\r\n        var errors = this.validate(data, validations);\r\n        \r\n        if (errors.length == 0) {\r\n            this.send(data, options);\r\n        }\r\n        else {\r\n            this.markInvalid(errors)\r\n        }\r\n\r\n        return false;\r\n\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Serialize and returns Form data as a JSON</p>",
+      "summary": "<p>Serialize and returns Form data as a JSON</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "getFormValues: function(){\r\n        var data = {}, data_arr = $('input:visible', this.form).serializeArray();\r\n\r\n        for (var i=0,ii=data_arr.length; i<ii; i++) {\r\n            data[data_arr[i].name] = data_arr[i].value;\r\n        };\r\n        \r\n        return data;\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Validate the form data and save the Model if validated successfully, mark errors otherwise</p>",
+      "summary": "<p>Validate the form data and save the Model if validated successfully, mark errors otherwise</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "formValidate: function() {    \r\n        var data = this.getFormValues();\r\n        this.model.set(data, { silent: true });\r\n        \r\n        if (this.model.isValid()) {\r\n            this.model.save( {}, { success: this.options.onSuccess } ); \r\n        } else {\r\n            var errors = this.model.getValidationErrors();\r\n            this.markInvalidSimple(errors);\r\n        }\r\n    },\r\n\r\n   demo: function() {\r\n       return $('<div><p>See <a href=\"#core.views.UserAddressForm\">core.views.UserAddressForm</a></p></div>')\r\n   } \r\n\r\n});"
+  }
+]

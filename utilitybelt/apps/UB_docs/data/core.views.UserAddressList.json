@@ -1,0 +1,106 @@
+[
+  {
+    "tags": [
+      {
+        "type": "param",
+        "types": [
+          "Collection"
+        ],
+        "name": "collection",
+        "description": "Collection of core.models.Address \r"
+      },
+      {
+        "type": "param",
+        "types": [
+          "Function"
+        ],
+        "name": "openEditWidget",
+        "description": "Handler to open the widget for model editing"
+      }
+    ],
+    "description": {
+      "full": "<p>View with the list of User Addresses </p>\n\n<h2>Example</h2>\n\n<pre><code>var list = new core.views.UserAddressList();\nlist.renderTo($('#some_element'));\n</code></pre>",
+      "summary": "<p>View with the list of User Addresses </p>\n\n<h2>Example</h2>\n\n<pre><code>var list = new core.views.UserAddressList();\nlist.renderTo($('#some_element'));\n</code></pre>",
+      "body": ""
+    },
+    "isPrivate": false,
+    "ignore": false,
+    "code": "core.define('core.views.UserAddressList', {\r\n\r\n    extend: 'core.View',\r\n    className: 'UserAddressList',\r\n    template: '',\r\n//    user_id: null,\r\n    \r\n    events: {\r\n         \"click .edit-icon\": \"editAddress\",\r\n         \"click .delete-icon\": \"deleteAddressConfirm\"\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Constructor, set collection and template</p>",
+      "summary": "<p>Constructor, set collection and template</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "initialize: function(){\r\n        this.collection = this.options.collection || new core.collections.Address();\r\n        this.collection.bindTo(this);"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>this.defaults = this.options.defaults || this.collection.defaults;</p>\n\n<pre><code>    this.user_id = this.options.user_id;\n    this.collection.user_id = this.user_id;\n</code></pre>",
+      "summary": "<p>this.defaults = this.options.defaults || this.collection.defaults;</p>\n\n<pre><code>    this.user_id = this.options.user_id;\n    this.collection.user_id = this.user_id;\n</code></pre>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "var me = this;\r\n        core.utils.getTemplate(['UserAddress/UserAddresses.html'], function(tpl) {\r\n            me.template = tpl;\r\n            me.collection.fetch(); // should change url first...\r\n        });    \r\n        \r\n    },",
+    "ctx": {
+      "type": "declaration",
+      "name": "me",
+      "value": "this",
+      "string": "me"
+    }
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Render widget using the collection and the template</p>",
+      "summary": "<p>Render widget using the collection and the template</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "render: function() {\r\n\r\n        var collection = this.collection;\r\n\r\n        if (collection.length == 0) {\r\n            this.onUserListEmpty();\r\n        }\r\n        else {\r\n\r\n            var col = collection.getRecords();\r\n\r\n            var tpl = _.template(this.template);\r\n            var data = { addresses: col };\r\n            data.get_full_address = function(address) { // TODO: create set of global renderers and process them in generic way\r\n                return address.city + ' ' + address.street_name + ' ' + address.street_number;\r\n            }\r\n\r\n            this.$el.empty().append(tpl(data));\r\n\r\n        }\r\n\r\n        core.views.UserAddressList.__super__.render.call(this);\r\n\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Run when addresses collection is empty</p>",
+      "summary": "<p>Run when addresses collection is empty</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "onUserListEmpty: function() {\r\n        this.$el.empty().append(jsGetText(\"no_addresses\"));\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Run when click on \"edit user\" icon</p>",
+      "summary": "<p>Run when click on \"edit user\" icon</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "editAddress: function(e) {  \r\n        var id = e.target.id;\r\n        var rec = this.collection.get(id);\r\n        if (rec && rec.id) {\r\n            this.options.openEditWidget({ record: rec, title: jsGetText('edit_address') });\r\n        }\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Remove the address from collection and re-render the widget</p>",
+      "summary": "<p>Remove the address from collection and re-render the widget</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "deleteAddress: function(id) {\r\n        var rec = this.collection.get(id);\r\n        var me = this;\r\n        rec.destroy({ success: function() {\r\n           me.collection.remove();\r\n           me.render();\r\n        } });\r\n    },"
+  },
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Run when click on \"delete user\" icon, show small inline \"confirmation\" dialog</p>",
+      "summary": "<p>Run when click on \"delete user\" icon, show small inline \"confirmation\" dialog</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "deleteAddressConfirm: function(e){\r\n        var id = e.target.id, me = this;\r\n        core.utils.getTemplate(['UserAddress/DeleteConfirm.html'], function(tpl) {\r\n            var html = _.template(tpl);\r\n            var ct = $(e.target).parents('li');\r\n            var confirm_message = ct.hide().after(html).next();\r\n            confirm_message.height(ct.height());\r\n            $('.yes', confirm_message).click( function() { \r\n                ct.show();\r\n                confirm_message.hide();\r\n                me.deleteAddress(id);                \r\n            } );\r\n            $('.no', confirm_message).click( function() { \r\n                ct.show();\r\n                confirm_message.hide() \r\n            } );\r\n        });    \r\n    },\r\n\r\n    demo: function() {\r\n        var list = new core.views.UserAddressList();\r\n        return list; \r\n    }\r\n\r\n});"
+  }
+]

@@ -1,0 +1,26 @@
+<div class="lightbox lb-full zip_code_lb">
+    <div class="dialog-box">
+        <div class="top-box">
+            <h3 class="h-medium title-container">{{ jsGetText('location_box_title', restaurantName) }}</h3>
+        </div>
+        <div class="body-box">
+            <div class="brown-gradient span-12 center">
+                <div class="span-12">
+                    {%
+                        var restaurant =  typeof(restaurantName) != "undefined" ? restaurantName : "";
+                        var address = typeof(activeAddress) != "undefined" ? activeAddress : "";
+                    %}
+                    <h3 class="h-medium">{{ jsGetText('choose_box_not_deliver', restaurant, address) }}</h3>
+                    <h3 class="h-medium">{{ jsGetText('choose_box_find_restaurants') }}</h3>
+                </div>
+                <div class="span-12">
+                    <div class="button proceed">{{ jsGetText('choose_box_list_restaurants') }}</div>
+                    <div class="button back">{{ jsGetText('choose_box_different_zip') }}</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="right logoSmall"></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

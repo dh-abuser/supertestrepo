@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=utf-8>
+    <title>Title of the document</title>
+    <script>
+    
+        var lh_current_page = 'app.RestaurantList';
+
+    </script>
+    <script src="menu_bootstrap.js"></script>
+    <script data-main="config" src="../../lib/require/require.js"></script>
+
+    <link href="DE-style.css" rel="stylesheet" />
+
+    <!--[if lte IE 9]>
+        <link href="/styleguide/template/css/sass/ie.css" rel="stylesheet">
+        <script type="text/javascript" src="/js/plugin/selectivizr.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div id="background" class="other_pages"></div>
+    <div class="container">
+        <header>
+            <div class="span-12 nav-bar brown-gradient">
+                <div class="span-2 logo short"></div>
+                <div class="span-2 welcome_back"></div>
+                <!--<nav class="span-6">-->
+                    <!--<ul class="unstyled futura-up">-->
+                        <!--<li><a href="#">Restaurants</a></li>-->
+                        <!--<li><a href="#">Letzte Bestellung</a></li>-->
+                        <!--<li><a href="#">Meine Favoriten</a></li>-->
+                    <!--</ul>-->
+                <!--</nav>-->
+                <div class="right span-3">
+                    <div class="span-6 hilfe">
+                        <a href="#">Hilfe & Kontakt</a>
+                    </div>
+                    <div class="span-6 login">
+                        <a class="button light login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </div>
+    <div class="container content-white">
+        <div class="body-content">
+            <section class="gray-box">
+                <div class="body-box">
+                    <div class="restaurant-logo span-2">
+                        <a href="#"><img src="images/pages/temp_restaurantlogo.jpeg"></a>
+                    </div>
+                    <div class="span-7 info-title">
+                        <div class="title-menu span-12">
+                            <h3><a href="#">Domino's Pizza</a></h3>
+                            <p>Schumannstraße, 10117 Berlin</p>
+                        </div>
+
+                            <div class="span-3">
+                                <div class="clock-green">
+                                    <a class="left" href="#">11:00-00:00</a>
+                                </div>
+                            </div>
+                            <div class="span-3">
+                                <div class="express-icon left"></div>
+                                <div class="icon_coupon left"></div>
+                            </div>
+                            <div class="span-3 rating">
+                                <span class="stars-rating">
+                                    <img src="images/widgets/tooltips/stars_full-ekomi.png" title="stars">
+                                </span>
+                                <span class="value-rating futura-up right">5.0/5</span>
+                                <p class="right"><a class="favorite-restaurant"></a>13 Bewertungen</p>
+                            </div>
+                    </div>
+                    <div class="facebook span-3"></div>
+                </div>
+            </section>
+            <div class="clear"></div>
+            <div class="tabs menu-cart span-8">
+                <div class="restaurantlistSearch right">
+                    <input type="search" placeholder="Speise, Restaurant, Küche" />
+                </div>
+                <ul class="unstyled">
+                    <li><a class="uppercase" href="#first_tab"><h3>Speisekarte</h3></a></li>
+                    <li><a class="uppercase" href="#second_tab"><h3>Bewertungen</h3></a></li>
+                </ul>
+                <section id="first_tab">
+                    <div class="span-3">
+                        <ul class="food">
+                            <li class="select block">Alle anzeigen</li>
+                            <li class="block">Top10 anzeigen</li>
+                        </ul>
+                        <ul  class="food">
+                            <li class="block">Alkoholfreie getranke</li>
+                            <li class="block">Alkoholische Getranke</li>
+                            <li class="block">Salate</li>
+                            <li class="block">Vorspeisen</li>
+                            <li class="block">Suppen</li>
+                            <li class="block">Argentinische Steaks</li>
+                            <li class="block">Beilagen</li>
+                            <li class="block">Enchiladas</li>
+                            <li class="block">Nachos</li>
+                        </ul>
+                    </div>
+                    <div class="span-1"></div>
+                    <div class="span-8 menu-items">
+                        <h3><b>10 Meistbestellte gerichte</b></h3>
+                        <div class="gray-box">
+                          <div class="allround top-box cursor">
+                              <div class="span-9">
+                                  <h6 class="default-font normalcase">1. Cheese Burger XXL</h6>
+                                  <p>Hamburger mit Kasescheiben, dazu Pommes fites</p>
+                              </div>
+                              <div class="span-1"></div>
+                              <div class="span-2">
+                                  <a href="#" item="1633809">€ 7.50</a>
+                                  <a class="cart-icon"></a>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="white-box">
+                            <div class="allround top-box cursor">
+                                <div class="span-9">
+                                    <h6 class="default-font normalcase">2. Mini Filet 150g </h6>
+                                    <p>Saftiges Rinderfiler mit Baked Potatoes und Salat</p>
+                                </div>
+                                <div class="span-1"></div>
+                                <div class="span-2">
+                                    <a href="#">€ 9.90</a>
+                                    <a class="cart-icon"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <h3 class="bg"><b>Alkoholfreie Getranke</b></h3>
+                        <div class="gray-box">
+                            <div class="allround top-box cursor">
+                                <div class="span-9">
+                                    <h6 class="default-font normalcase">Sprite 0, 33L</h6>
+                                </div>
+                                <div class="span-1"></div>
+                                <div class="span-2">
+                                    <a href="#" item="1633794">€ 1.55</a>
+                                    <a class="cart-icon"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="white-box">
+                            <div class="allround top-box cursor">
+                                <div class="span-9">
+                                    <h6 class="default-font normalcase">Fanta 0,33L </h6>
+                                </div>
+                                <div class="span-1"></div>
+                                <div class="span-2">
+                                    <a href="#" item="4">€ 1.55</a>
+                                    <a class="cart-icon"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </section>
+                <section id="second_tab">
+                    <div class="span-11">
+                        <div class="span-7 total_bewertungen">
+                            <div class="rating left bigger">
+                                <div class="stars-rating">
+                                    <img src="images/widgets/tooltips/stars_full-ekomi-big.png" alt="stars">
+                                </div>
+                                <div class="value-rating bigger futura-up right">5.0/5</div>
+                            </div>
+                            <h3 class="data">durchschnitt aus 13 bewertungen</h3>
+                        </div>
+                        <div class="span-3">
+                            <h3>verteilung</h3>
+                            <img src="images/pages/rating_digram.png">
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                    <div class="white-tooltip">
+                        <div class="tooltip-body">
+                            <div class="comment">
+                                <div class="rating left">
+                                    <div class="stars-rating">
+                                        <img src="images/widgets/tooltips/stars_full-ekomi.png" alt="stars">
+                                    </div>
+                                    <div class="value-rating futura-up right">5.0/5</div>
+                                </div>
+                                <div class="data left"><small>28. Feb. 2012</small></div>
+                                <div class="clear"></div>
+                                <p class="to_comments main-color">
+                                    Die beste Pizza, die ich jemals bei einem Lieferanten gegessen habe! Der extra <small><a>... weiterlesen</a></small>
+                                </p>
+                            </div>
+                            <div class="comment">
+                                <div class="rating left">
+                                    <div class="stars-rating">
+                                        <img src="images/widgets/tooltips/stars_full-ekomi.png" alt="stars">
+                                    </div>
+                                    <div class="value-rating futura-up right">5.0/5</div>
+                                </div>
+                                <div class="data left"><small>28. Feb. 2012</small></div>
+                                <div class="clear"></div>
+                                <p class="to_comments main-color">
+                                    Die beste Pizza, die ich jemals bei einem Lieferanten gegessen habe! Der extra <small><a>... weiterlesen</a></small>
+                                </p>
+                            </div>
+                            <div class="comment">
+                                <div class="rating left">
+                                    <div class="stars-rating">
+                                        <img src="images/widgets/tooltips/stars_full-ekomi.png" alt="stars">
+                                    </div>
+                                    <div class="value-rating futura-up right">5.0/5</div>
+                                </div>
+                                <div class="data left"><small>28. Feb. 2012</small></div>
+                                <div class="clear"></div>
+                                <p class="to_comments main-color">
+                                    Die beste Pizza, die ich jemals bei einem Lieferanten gegessen habe! Der extra <small><a>... weiterlesen</a></small>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <aside class="span-4">
+                <section class="shopping-cart"></section>
+                <section class="tesimonial-menu">
+                    <div class="span-5"></div>
+                    <div class="span-3">
+                        <img class="right" src="/images/pages/menupage_trust2.png" alt="testimonial" />
+                    </div>
+                    <div class="span-3">
+                        <img class="right" src="/images/pages/menupage_trust1.png" alt="testimonial"/>
+                    </div>
+                    <blockquote>
+                        <img src="/images/common/testimonials_opening_quotation.png" alt="blockquote" />
+                         Ich wollte euch mal ein Lob aussprechen. Euer Dienst gefällt mir bisher wirklich sehr gut. Dieses ganze Heldenthema finde ich echt witzig, eine schöne Abwechslung zu den oft so langweiligen Webseiten.
+                        <img src="/images/common/testimonials_closing_quotation.png" alt="blockquote" />
+                        <p class="right"><b>Karo, Berlin</b></p>
+                    </blockquote>
+                    <blockquote>
+                        <img src="/images/common/testimonials_opening_quotation.png" alt="blockquote"/>
+                        Großartig! Habe heute zum ersten Mal bei euch bestellt und das Essen war superschnell bei mir. Danke euch und weiterhin viel Erfolg!
+                        <img src="/images/common/testimonials_closing_quotation.png" alt="blockquote"/>
+                        <p class="right"><b>Martin, Hannover</b></p>
+                    </blockquote>
+                    <blockquote>
+                        <img src="/images/common/testimonials_opening_quotation.png" alt="blockquote"/>
+                        Endlich mal etwas Nützliches im Internet! Bin vor kurzem zufällig auf euch gestoßen und war sofort begeistert. Alle meine Lieblingslieferdienste habt ihr schon dabei und heute ich habe sogar einen sehr schönen neuen Italiener entdeckt. Wirklich Klasse! Weiter so!
+                        <img src="/images/common/testimonials_closing_quotation.png" alt="blockquote"/>
+                        <p class="right"><b>Elias, Berlin</b></p>
+                    </blockquote>
+                </section>
+            </aside>
+        </div>
+    </div>
+    <div class="container">
+        <footer>
+            <div class="brown-box">
+                <ul class="footerBreadcrumbs unstyled gray-gradient">
+                    <li class="logoLink left"><a class="logoLink" href="/"></a></li>
+                    <li><a href="#">Lorem</a></li>
+                    <li><em>Lorem</em></li>
+                </ul>
+                <section>
+                    <div class="span-3 center"><img src="images/pages/food_footer_fridge.png" alt="food footer"></div>
+                    <div class="span-2">
+                        <h4>Mehr Lieferheld</h4>
+                        <nav>
+                            <ul class="unstyled">
+                                <li><a href="/impressum/">Über uns</a></li>
+                                <li><a href="http://kontakt.lieferheld.de/">Kontakt</a></li>
+                                <li><a href="http://blog.lieferheld.de/">Lieferheld.de Blog</a></li>
+                                <li><a href="http://blog.lieferheld.de/jobs/">Jobs @ Lieferheld</a></li>
+                                <li><a href="http://kontakt.lieferheld.de/">Hilfe</a></li>
+                                <li><a href="/impressum/">Impressum</a></li>
+                                <li><a href="/agb/">AGB</a></li>
+                                <li><a href="#">Restaurant eintragen</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="span-3">
+                        <h4>Hier findest du uns auch</h4>
+                        <nav class="social_icons">
+                            <ul class="unstyled">
+                                <li><a class="facebook_icon" href="http://www.facebook.com/lieferheld">Facebook</a></li>
+                                <li><a class="twitter_icon" href="http://twitter.com/lieferheld">Twitter</a></li>
+                                <li><a class="youtube_icon" href="http://www.youtube.com/user/lieferheldDE">YouTube</a></li>
+                                <li><a class="lh_blog_icon" href="http://blog.lieferheld.de/">Lieferheld blog</a></li>
+                                <li><a class="google_icon" href="https://plus.google.com/102474806982481482547/">Google+</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="span-4">
+                        <section>
+                            <div class="span-6">
+                                <h4>mobile apps</h4>
+                                <a class="mobile_apps left" href="/apps/" target="_blank"></a>
+                                <div class="mobile-line right"></div>
+                            </div>
+                            <div class="span-6">
+                                <div class="restaurant_bt">
+                                    <a class="button light sug-restaurant" href="javascript:">Sind Sie ein <br>Restaurantbesitzer?</a>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="payment_footer">
+                            <h4>Zahlungsmethoden</h4>
+                            <div class="zahlen_icons"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="clear"></div>
+            <div class="center">&copy; 2012 Lieferheld.de / Lieferheld GmbH </div>
+        </footer>
+    </div>
+</body>
+</html>
+
+        

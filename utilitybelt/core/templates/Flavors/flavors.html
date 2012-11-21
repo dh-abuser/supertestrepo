@@ -1,0 +1,49 @@
+<p class="main-color">
+    {{ description }}
+</p>
+{% _.each(flavors.items, function(flavorContainer) { %}
+    <section class="small-content">
+        <form id="{{ flavorContainer.id }}">
+            <h6 class="h-smallest p-font flavors-section-header">
+                {{ flavorContainer.name }}
+                {{ flavorContainer.flavors.structure == "1" ? " " + jsGetText("flavors_mandatory") : "" }}
+            </h6>
+
+            {% _.each(flavorContainer.flavors.items, function(singleFlavor, i) { %}
+                <div class="span-5">
+                    <div class="ingredient small">
+                        <input type="{{ getType(flavorContainer) }}" data-flavor-id='{{ singleFlavor.id }}' name="{{ flavorContainer.id }}">
+                        <label class="normalcase">
+                            {{ singleFlavor.name }}
+                            {% if (singleFlavor.sizes[0].price > 0){ %}
+                                <span class="price right">
+                                    {{ core.utils.formatPrice(singleFlavor.sizes[0].price) }}
+                                </span>
+                            {% } %}
+                        </label>
+                    </div>
+                </div>
+
+                {% if (i%2==1){ %}
+                    <div class="span-1"></div>
+                {% } %}
+            {% }); %}
+        </form>
+        <div class="clear"></div>
+    </section>
+{% }); %}
+
+<div style="color:red; text-align:center" class="flavors_error_message"></div>
+
+<section class="small-content">
+    <div class="span-5">
+        <div class="total_price right">
+            <h3 class="h-medium p-font left currency">{{ jsGetLocale('currency.symbol') }}</h3>
+            <h3 class="h-medium p-font right">0.00</h3>
+        </div>
+    </div>
+    <div class="span-1"></div>
+    <div class="span-5">
+        <a class="button action">{{ jsGetText('add_to_cart') }}</a>
+    </div>
+</section>

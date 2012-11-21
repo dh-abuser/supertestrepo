@@ -1,0 +1,21 @@
+<li class="span-12 {{ cartItem.id }}">
+
+    {% if (cart.readOnly) { %}
+
+    <div class="span-1"></div>
+    <div class="span-1"><b>{{ cartItem.quantity }}</b></div>
+
+    {% } else { %}
+
+    <div class="span-1 quantity h-font-up">{{ cartItem.quantity }}</div>
+    <div class="span-1 buttons">
+        <a class="cart-plus"></a>
+        <a class="cart-minus"></a>
+    </div>
+
+    {% } %}
+
+    <input type="hidden" name="quantity|{{ cartItem.id }}" value="{{ cartItem.quantity }}" />
+    <div class="span-8 name">{{ core.utils.formatItem(cartItem.itemName) }}</div>
+    <div class="span-2 price right"><p class="right">{{ cartItem.price }}</p></div>
+</li>

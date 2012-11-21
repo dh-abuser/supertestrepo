@@ -1,0 +1,19 @@
+<div class="white-container">
+    <ul class="unstyled user-address">
+    
+       {% _.each(addresses, function(address) { %}
+           <li class="span-12">
+               <div class="span-1"><input type='checkbox'></div>
+               <div class="span-2 name" data-content="{{ address.name }}">{{ address.name }}</div>
+               <div class="span-2 lastname">{{ address.lastname }}</div>
+               <div class="span-6 address">{{ get_full_address(address) }}</div>
+               <div class="span-1 edit-address">
+                   <a class="edit-icon" id="{{ address.id }}"></a>
+                   <a class="delete-icon" id="{{ address.id }}"></a>
+               </div>
+           </li>
+       {% }); %}
+    
+    </ul>
+<div class="clear"></div>
+</div>

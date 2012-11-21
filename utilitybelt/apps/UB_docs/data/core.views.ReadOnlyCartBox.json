@@ -1,0 +1,12 @@
+[
+  {
+    "tags": [],
+    "description": {
+      "full": "<p>Shopping Cart container (read only mode), for inline display.</p>",
+      "summary": "<p>Shopping Cart container (read only mode), for inline display.</p>",
+      "body": ""
+    },
+    "ignore": false,
+    "code": "core.define('core.views.ReadOnlyCartBox', {\n    extend: 'core.views.CartBox',\n\n    demo: function() {\n        var items = [\n            {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 5, \"name\": \"L\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp1\",\n                \"name\": \"Fanta*1,3,5,7 0,5L  \"\n            }, {\n                \"description\": \"inkl. 0,15\\u20ac Pfand\",\n                \"sizes\": [{\"price\": 20, \"name\": \"XL\"}],\n                \"pic\": \"\",\n                \"main_item\": true,\n                \"sub_item\": false,\n                \"id\": \"mp2\",\n                \"name\": \"Pain saucisse\"\n            }\n        ];\n        var cart = new core.collections.Cart();\n        for (var i=0, bound=items.length; i<bound; i++) {\n            var p = new core.models.Item(items[i]);\n            cart.add(p, {quantity: 2*i+1});\n        }\n\n        var bb = new core.views.CartBox({\n            title: jsGetText('shopping_cart'),\n            paymentIcons: [\n                { css: 'cashPaymentIcons', tooltip: 'Barzahlung' },\n                { css: 'onlinePaymentIcons', tooltip: 'Onlinezahlung' }\n            ],\n            cart: {collection: cart, readOnly: true}\n        });\n        return bb;\n    }\n});"
+  }
+]
