@@ -23,6 +23,7 @@
     //spec. With compliant browsers .async true by default, and
     //if false, then it will execute in order. Favor that test first for forward
     //compatibility.
+    ohImBadVar = 'fuuuu';
     var testScript = typeof document !== "undefined" &&
                  typeof window !== "undefined" &&
                  document.createElement("script"),
